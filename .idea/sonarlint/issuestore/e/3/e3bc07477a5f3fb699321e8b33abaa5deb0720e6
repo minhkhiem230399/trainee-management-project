@@ -1,0 +1,9 @@
+
+S
+java:S1128"=Remove this unused import 'javax.persistence.GeneratedValue'.(¤®À‚
+S
+java:S1128"=Remove this unused import 'javax.persistence.GenerationType'.(ý÷õ¡
+V	java:S125$"<This block of commented-out lines of code should be removed.(¥Ö¶þûÿÿÿÿ
+V	java:S125"<This block of commented-out lines of code should be removed.(é··ÿÿÿÿÿ
+G
+java:S1128"1Remove this unused import 'javax.persistence.Id'.(þ¹ÞÜ

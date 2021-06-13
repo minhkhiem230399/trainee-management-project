@@ -1,0 +1,12 @@
+
+M
+java:S1481Ò"*Remove this unused "scale" local variable.(ÜòüÓûÿÿÿÿ8ç‡³úŸ/
+c
+java:S4684’"@Replace this persistent entity with a simple POJO or DTO object.(’×ë¹øÿÿÿÿ8ç‡³úŸ/
+b
+java:S4684}"@Replace this persistent entity with a simple POJO or DTO object.(’×ë¹øÿÿÿÿ8ç‡³úŸ/
+J	java:S108J")Either remove or fill this block of code.(é‡ˆÊüÿÿÿÿ8ÚèÇœ/
+e
+java:S1192Y"HDefine a constant instead of duplicating this literal "message" 7 times.(Ü‡—Î8ç‡³úŸ/
+Y	java:S125Õ"<This block of commented-out lines of code should be removed.(“¾Ì8ç‡³úŸ/
+^	java:S125£"<This block of commented-out lines of code should be removed.(–ë—İøÿÿÿÿ8ç‡³úŸ/

@@ -1,0 +1,13 @@
+
+i
+java:S1104"NMake id a static final constant or non-public and provide accessors if needed.(ÍéÌ‘øÿÿÿÿ
+f
+java:S1104"PMake name a static final constant or non-public and provide accessors if needed.( şÍ¾
+n
+java:S1104	"SMake account a static final constant or non-public and provide accessors if needed.(½íúÿÿÿÿ
+g
+java:S1104"QMake score a static final constant or non-public and provide accessors if needed.(ß™àš
+l
+java:S1104"QMake email a static final constant or non-public and provide accessors if needed.(¾Æ†Ëıÿÿÿÿ
+q
+java:S1104"VMake university a static final constant or non-public and provide accessors if needed.(œø½àúÿÿÿÿ

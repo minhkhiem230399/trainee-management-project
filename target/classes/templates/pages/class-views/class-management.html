@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout-template.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="currentPage='Class Management',currentLink='Class Management',currentTemplate='Default Management'"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Class Management</title>
+</head>
+
+<body>
+<div layout:fragment="content" class="content">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-end mb-4">
+            <form th:action="@{/class-management}" method="GET"
+                  class="col-md-4 d-flex flex-row justify-content-end p-0">
+                <div class="input-group col-md-8 p-0">
+                    <input type="text" class="form-control" placeholder="Search" id="search" th:name="search"
+                           th:value="${search}">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <form method="GET" th:action="@{/class-management}">
+            <div class="row d-flex justify-content-between">
+                <div class="d-flex col-md-10 pl-0 justify-content-start">
+
+                    <div class="col-md-1 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false"><i class="fa fa-sort-amount-asc"
+                                                                              aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" th:href="@{/class-management(size=${size},field = ${'default'})}">Default</a>
+                            <a class="dropdown-item"
+                               th:href="@{/class-management(size=${size},field = ${'status-asc'})}">Status
+                                - ASC</a>
+                            <a class="dropdown-item"
+                               th:href="@{/class-management(size=${size},field = ${'endDate-asc'})}">End Date
+                                - ASC</a>
+                            <a class="dropdown-item"
+                               th:href="@{/class-management(size=${size},field = ${'openDate-asc'})}">Start Date
+                                - ASC</a>
+                        </div>
+                    </div>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')" class="col-md-2">
+                        <a href="/class-management/add-class" class="btn btn-primary btn-block">Add Classes</a>
+                    </div>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')" class="col-md-3">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#exampleModalLabel11">
+                            Add Training Object
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" tabindex="-1" role="dialog" id="exampleModalLabel11"
+                             aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel1">Add Training Object</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label>
+                                            <input placeholder="Enter name..." id="name-object" type="text" required
+                                                   class="form-control">
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" onclick="Modal.addTraining()">Save
+                                            changes
+                                        </button>
+                                        <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group col-md-2">
+                    <button type="button" class="btn btn-primary" id="dropdownMenuButton1" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Show row
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <a class="dropdown-item" th:href="@{/class-management(size=1)}">1</a>
+                        <a class="dropdown-item" th:href="@{/class-management(size=5)}">5</a>
+                        <a class="dropdown-item" th:href="@{/class-management(size=10)}">10</a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </form>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="strpied-tabled-with-hover mt-2">
+                    <div class="card-body table-full-width table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>NAME</th>
+                                <th>PLAN COUNT</th>
+                                <th>CURRENT COUNT</th>
+                                <th>START DATE</th>
+                                <th>END DATE</th>
+                                <th>HEAD TEACHER</th>
+                                <th>STATUS</th>
+                                <th sec:authorize="hasRole('ROLE_ADMIN')">ADD TRAINEE</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="class : ${classPage.content}">
+                                <td th:text="${class.name}"
+                                    th:onclick="'javascript:rowClicked(\'' + ${class.id} + '\');'">1
+                                </td>
+                                <td th:text="${class.planCount}"
+                                    th:onclick="'javascript:rowClicked(\'' + ${class.id} + '\');'"></td>
+                                <td th:id="'currentCount'+${class.id}" th:text="${class.currCount}"
+                                    th:onclick="'javascript:rowClicked(\'' + ${class.id} + '\');'"></td>
+                                <td th:text="${class.openDate}"
+                                    th:onclick="'javascript:rowClicked(\'' + ${class.id} + '\');'"></td>
+                                <td th:text="${class.endDate}"
+                                    th:onclick="'javascript:rowClicked(\'' + ${class.id} + '\');'"></td>
+                                <td th:text="${class.trainerDto.name}"
+                                    th:onclick="'javascript:rowClicked(\'' + ${class.id} + '\');'"></td>
+                                <td th:text="${class.statusProgress}"
+                                    th:onclick="'javascript:rowClicked(\'' + ${class.id} + '\');'"></td>
+                                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <button th:if="${(class.statusProgress == 'WAITING' or class.statusProgress == 'RUNNING') and class.planCount > class.currCount}"
+                                            type="button" class="btn btn-primary" data-toggle="modal"
+                                            th:data-target="'#'+${class.id}">
+                                        Add Trainee
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" th:id="${class.id}" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Add Trainee In
+                                                        Course</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label>
+                                                        <input placeholder="Enter account trainee..."
+                                                               th:id="'account'+${class.id}" type="text"
+                                                               class="form-control" required>
+                                                    </label>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary"
+                                                            th:data-id="${class.id}"
+                                                            onclick="Modal.addTrainee($(this))">Save changes
+                                                    </button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 mt-3" th:if="${classPage.totalElements > size}">
+                <!-- directors pagination -->
+                <nav aria-label="Pagination">
+                    <ul class="pagination justify-content-center font-weight-bold">
+                        <li class="page-item" th:classappend="${paginationRange.currentPage le 1} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/class-management(size=${size},page=${1},field = ${field})}"
+                               aria-label="Previous" title="First Page" data-toggle="tooltip">
+                                <span aria-hidden="true">First</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:classappend="${paginationRange.currentPage le 1} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/class-management(size=${classPage.size},page=${cPage - 1},field = ${field})}"
+                               aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence( paginationRange.min, paginationRange.max)}"
+                            th:classappend="${i eq paginationRange.currentPage} ? 'active'">
+                            <a class="page-link"
+                               th:href="@{/class-management(size=${size},page=${i},field = ${field})}"
+                               th:text="${i}"
+                               th:title="${'Page '+ i}" data-toggle="tooltip">
+                            </a>
+                        </li>
+                        <li class="page-item"
+                            th:classappend="${paginationRange.currentPage ge classPage.totalPages } ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/class-management(size=${classPage.size},page=${cPage + 1},field = ${field})}"
+                               aria-label="Next" title="Next Page" data-toggle="tooltip">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"
+                            th:classappend="${paginationRange.currentPage ge classPage.totalPages } ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/class-management(size=${classPage.size},page=${classPage.totalPages},field = ${field})}"
+                               aria-label="Next" title="Last Page" data-toggle="tooltip">
+                                <span aria-hidden="true">Last</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+</body>
+
+</html>

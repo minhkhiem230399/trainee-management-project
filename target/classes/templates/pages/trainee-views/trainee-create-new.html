@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout-template.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="currentPage='Class Management',currentLink='Class Management',currentTemplate='Default Management'"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Trainee Management</title>
+</head>
+
+<body>
+<div layout:fragment="content" class="content">
+    <div class="container-fluid">
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="mb-0 font-size-18" style="color: mediumpurple">Create Account Trainee</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Basic Information</h4>
+<!--                                    <p class="card-title-desc">Fill all information below</p>-->
+                                    <p th:utext="${message}"></p>
+                                    <form th:action="@{/trainee-management/add-trainee}" th:object="${trainee}" onsubmit="Modal.checkEmail()" method="post">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label >Full Name</label>
+                                                    <input th:field="*{name}"  type="text" class="form-control" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input id="email" th:field="*{email}" onchange="Modal.checkEmail()"  type="email" class="form-control" required>
+                                                </div>
+                                                <p id="message"></p>
+                                                <div class="form-group">
+                                                    <label for="tel-phone">Tel Number</label>
+                                                    <input id="tel-phone" onchange="checkPhoneNumber();" th:field="*{telPhone}" class="form-control" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="uni">University</label>
+                                                    <input id="uni" th:field="*{university}"  type="text" class="form-control" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="password">Password</label>
+                                                    <input id="password" th:field="*{user.password}"  type="password" class="form-control" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" id="save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+                                        <a href="/class-management" class="btn btn-secondary waves-effect">Cancel</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+                </div> <!-- container-fluid -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

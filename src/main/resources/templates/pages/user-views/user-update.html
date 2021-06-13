@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout-template.html}"
+      th:with="currentPage='User Update',currentLink='User Update',currentTemplate='User Profile'">
+
+
+<head>
+    <title>User Management System</title>
+</head>
+
+<body>
+<div layout:fragment="content" class="content">
+    <div class="container-fluid col-md-4">
+        <form th:action="@{/user-update}" th:object="${user}" th:method="POST">
+            <div th:if="${result != null}" style="display:none">
+                <input type="text" id="check-success-update-user" value="success">
+            </div>
+            <h2 class="text-center mt-0">Update User</h2>
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" class="form-control" placeholder="Enter full name" th:field="*{name}">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" placeholder="Enter your email" th:field="*{email}">
+            </div>
+            <div class="form-group">
+                <label>Tel number</label>
+                <input type="tel" class="form-control" placeholder="Enter tel number" th:field="*{telNumber}">
+            </div>
+            <div class="form-group">
+                <label>Facebook</label>
+                <input type="text" class="form-control" placeholder="Enter your facebook" th:field="*{facebook}">
+            </div>
+
+            <div class="form-group">
+                <label>National</label>
+                <input type="text" class="form-control" placeholder="Enter your national" th:field="*{national}">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-info btn-fill btn-block">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+
+</html>
+
+

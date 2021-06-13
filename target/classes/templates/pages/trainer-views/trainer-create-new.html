@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout-template.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="currentPage='Class Management',currentLink='Class Management',currentTemplate='Default Management'"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Trainer Management</title>
+</head>
+
+<body>
+<div layout:fragment="content" class="content">
+    <div class="container-fluid">
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="mb-0 font-size-18" style="color: mediumpurple">Create Account Trainer</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Basic Information</h4>
+                                    <!--                                    <p class="card-title-desc">Fill all information below</p>-->
+                                    <div class="alert alert-success" th:if="${message != null}" role="alert"
+                                         th:utext="${message}">
+                                    </div>
+                                    <form th:action="@{/trainer-management/add-trainer}" th:object="${trainer}"
+                                          method="post" onsubmit="showNotification('top','right','Add success!')">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <input th:field="*{id}" th:value="*{id}" type="hidden"
+                                                       class="form-control">
+                                                <div class="form-group">
+                                                    <label>Full Name</label>
+                                                    <input th:field="*{name}" th:value="*{name}" type="text"
+                                                           class="form-control" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input id="email" th:field="*{email}" onchange="Modal.checkEmail()"
+                                                           name="price" class="form-control" required>
+                                                </div>
+                                                <p id="message"></p>
+                                                <div class="form-group">
+                                                    <label for="tel-phone">Tel Number</label>
+                                                    <input id="tel-phone" onchange="checkPhoneNumber();"
+                                                           th:field="*{telPhone}" th:value="*{telPhone}" name="telPhone"
+                                                           class="form-control" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="password">Password</label>
+                                                    <input id="password" th:field="*{user.password}" name="price"
+                                                           type="password" class="form-control" required>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <button type="submit" id="save"
+                                                class="btn btn-primary mr-1 waves-effect waves-light">Save Changes
+                                        </button>
+                                        <a href="/trainer-management" class="btn btn-secondary waves-effect">Cancel</a>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+                </div> <!-- container-fluid -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

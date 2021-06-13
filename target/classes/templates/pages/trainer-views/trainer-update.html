@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout-template.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="currentTemplate =${role == 1 ? 'User Profile' : 'Default Management'}"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Trainer Management</title>
+</head>
+
+<body>
+<div layout:fragment="content" class="content">
+    <div class="container-fluid">
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="mb-0 font-size-18" style="color: mediumpurple">Update Trainer</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Basic Information</h4>
+<!--                                    <p class="card-title-desc">Fill all information below</p>-->
+                                    <form th:action="@{/trainer-management/update-trainer}" th:object="${trainer}" method="post">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <input th:field="*{id}" th:value="*{id}"  type="hidden" class="form-control">
+                                                <div class="form-group">
+                                                    <label >Full Name</label>
+                                                    <input th:field="*{name}" th:value="*{name}"  type="text" class="form-control" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input id="email" th:field="*{email}" onchange="Modal.checkEmail()"  name="price" class="form-control" required>
+                                                </div>
+                                                <p id="message"></p>
+                                                <div class="form-group">
+                                                    <label for="telPhone">Tel Number</label>
+                                                    <input id="telPhone" th:field="*{telPhone}" th:value="*{telPhone}" name="telPhone" type="number" class="form-control" required>
+                                                </div>
+                                                <div sec:authorize="hasRole('ROLE_TRAINER')" class="form-group">
+                                                    <label for="address">Address</label>
+                                                    <input id="address" th:field="*{address}" th:value="*{address}" name="address" type="text" class="form-control" required>
+                                                </div>
+
+                                                <div sec:authorize="hasRole('ROLE_TRAINER')" class="form-group">
+                                                    <label for="birth-day">Birth Day</label><br/>
+                                                    <input id="birth-day" th:field="*{birthDay}" th:value="*{birthDay}" onchange="checkBirthDay($(this))" title="Birth Day" type="date" required/>
+                                                </div>
+                                                <!--                                                <div class="form-group">-->
+                                                <!--                                                    <label for="exampleFormControlSelect1">Trainer Name</label>-->
+                                                <!--                                                    <select th:field="*{trainer}" class="form-control" id="exampleFormControlSelect1">-->
+
+                                                <!--                                                        <option th:each="trainer:${trainers}"-->
+                                                <!--                                                                th:value="${trainer.id}"-->
+                                                <!--                                                                th:utext="${trainer.name}"></option>-->
+                                                <!--                                                    </select>-->
+                                                <!--                                                </div>-->
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+                                        <a href="/trainer-management" class="btn btn-secondary waves-effect">Cancel</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+                </div> <!-- container-fluid -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

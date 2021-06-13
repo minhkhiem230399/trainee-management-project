@@ -1,0 +1,16 @@
+
+b
+java:S1128"ERemove this unused import 'com.edu.hutech.services.core.UserService'.(Ğ¥ä8ãÅ­Ÿ/
+e
+java:S1192s"HDefine a constant instead of duplicating this literal "trainer" 3 times.(¬…ú„8áôÏ†/
+`
+java:S1155P">Use isEmpty() to check whether the collection is empty or not.(Å®ìßúÿÿÿÿ8³½’/
+f
+java:S3358;"DExtract this nested ternary operation into an independent statement.(¬©¿âıÿÿÿÿ8áôÏ†/
+^
+java:S4684˜"@Replace this persistent entity with a simple POJO or DTO object.(ƒÌ–­8³½’/
+]
+java:S4684y"@Replace this persistent entity with a simple POJO or DTO object.(ƒÌ–­8³½’/
+J	java:S108G")Either remove or fill this block of code.(é‡ˆÊüÿÿÿÿ8áôÏ†/
+e
+java:S1192_"HDefine a constant instead of duplicating this literal "message" 8 times.(Ü‡—Î8¯Çõ/

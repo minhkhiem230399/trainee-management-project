@@ -1,0 +1,30 @@
+
+zjavascript:S2703"^Add the "let", "const" or "var" keyword to this declaration of "$sidebar" to make it explicit.(„ïàÀ
+javascript:S2703"lAdd the "let", "const" or "var" keyword to this declaration of "$sidebar_img_container" to make it explicit.(™ô°îÿÿÿÿÿ
+|javascript:S2703"`Add the "let", "const" or "var" keyword to this declaration of "$full_page" to make it explicit.(ÚŠß
+Šjavascript:S2703"iAdd the "let", "const" or "var" keyword to this declaration of "$sidebar_responsive" to make it explicit.(’ê¦Ãüÿÿÿÿ
+~javascript:S2703"bAdd the "let", "const" or "var" keyword to this declaration of "window_width" to make it explicit.(ì³‹Î
+ƒjavascript:S2703"gAdd the "let", "const" or "var" keyword to this declaration of "fixed_plugin_open" to make it explicit.(ªÀì„
+Œjavascript:S2703G"kAdd the "let", "const" or "var" keyword to this declaration of "$full_page_background" to make it explicit.(‰¾¢Ýþÿÿÿÿ
+;javascript:S2814`"'new_image' is already defined.(úÓš‹
+Ejavascript:S2814a")'new_image_full_page' is already defined.(…ìË”
+}javascript:S2703p"\Add the "let", "const" or "var" keyword to this declaration of "$input" to make it explicit.(‹™¼žþÿÿÿÿ
+‡javascript:S2703}"fAdd the "let", "const" or "var" keyword to this declaration of "background_image" to make it explicit.(®®»Åúÿÿÿÿ
+|javascript:S2703Ž"ZAdd the "let", "const" or "var" keyword to this declaration of "type" to make it explicit.(˜ÆèÀøÿÿÿÿ
+wjavascript:S2703"ZAdd the "let", "const" or "var" keyword to this declaration of "demo" to make it explicit.(øêÈ»
+‹javascript:S2703¢"iAdd the "let", "const" or "var" keyword to this declaration of "dataDailySalesChart" to make it explicit.(ªÆ¿þÿÿÿÿ
+Žjavascript:S2703©"lAdd the "let", "const" or "var" keyword to this declaration of "optionsDailySalesChart" to make it explicit.(¾ëªÙùÿÿÿÿ
+bjavascript:S1481·"@Remove the declaration of the unused 'dailySalesChart' variable.(˜­Ú‰ùÿÿÿÿ
+_javascript:S1854·"=Remove this useless assignment to variable "dailySalesChart".(˜­Ú‰ùÿÿÿÿ
+7javascript:S1534ý"Duplicate key 'lineSmooth'.(ë²é
+Xjavascript:S1481";Remove the declaration of the unused 'chartHours' variable.(œ¦ñÑ
+Ujavascript:S1854"8Remove this useless assignment to variable "chartHours".(œ¦ñÑ
+[javascript:S1481®">Remove the declaration of the unused 'chartActivity' variable.(ðâ¯…
+Xjavascript:S1854®";Remove this useless assignment to variable "chartActivity".(ðâ¯…
+xjavascript:S2703Œ"[Add the "let", "const" or "var" keyword to this declaration of "color" to make it explicit.(ðÞ»ç
+fjavascript:S1481¡"DRemove the declaration of the unused 'randomScalingFactor' variable.(âüÚ¤üÿÿÿÿ
+cjavascript:S1854¡"ARemove this useless assignment to variable "randomScalingFactor".(âüÚ¤üÿÿÿÿ
+fjavascript:S1481Ë"DRemove the declaration of the unused 'randomScalingFactor' variable.(âüÚ¤üÿÿÿÿ
+cjavascript:S1854Ë"ARemove this useless assignment to variable "randomScalingFactor".(âüÚ¤üÿÿÿÿ
+Qjavascript:S1481ð"5Remove the declaration of the unused 'data' variable.(Í–ó)
+Njavascript:S1854ð"2Remove this useless assignment to variable "data".(Í–ó)

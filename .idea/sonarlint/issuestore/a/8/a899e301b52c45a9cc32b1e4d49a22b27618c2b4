@@ -1,0 +1,23 @@
+
+u
+java:S1488Á"^Immediately return this expression instead of assigning it to the temporary variable "rValue".(”µŸï
+t
+java:S2293)"YReplace the type specification in this constructor call with the diamond operator ("<>").(íÕØãşÿÿÿÿ
+o
+java:S2293E"YReplace the type specification in this constructor call with the diamond operator ("<>").(ù×™
+t
+java:S3012G"YUse "Arrays.copyOf", "Arrays.asList", "Collections.addAll" or "System.arraycopy" instead.(¹òı²üÿÿÿÿ
+o
+java:S2293g"YReplace the type specification in this constructor call with the diamond operator ("<>").(ù×™
+t
+java:S3012i"YUse "Arrays.copyOf", "Arrays.asList", "Collections.addAll" or "System.arraycopy" instead.(¹òı²üÿÿÿÿ
+a
+java:S2147"ECombine this catch with the one at line 140, which has the same body.(ÿëÛßúÿÿÿÿ
+a
+java:S2147"ECombine this catch with the one at line 140, which has the same body.(¥¨›ıÿÿÿÿ
+p
+java:S2293—"YReplace the type specification in this constructor call with the diamond operator ("<>").(¼µğ‹
+W	java:S125±"<This block of commented-out lines of code should be removed.(ÙÈÚùûÿÿÿÿ
+H
+java:S3011¿",This accessibility update should be removed.(ÅÉÅÂûÿÿÿÿ
+O	java:S106â"9Replace this use of System.out or System.err by a logger.(Àöù¬

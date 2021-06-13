@@ -1,0 +1,17 @@
+
+V	java:S125."<This block of commented-out lines of code should be removed.(ê°òþýÿÿÿÿ
+V	java:S125<"<This block of commented-out lines of code should be removed.(—Üºìúÿÿÿÿ
+N
+java:S1068"3Remove this unused "DATATYPE_STRING" private field.(¯¤ïêùÿÿÿÿ
+L
+java:S1068"1Remove this unused "DATATYPE_DATE" private field.(Ó¯ñúÿÿÿÿ
+J
+java:S1068"4Remove this unused "DATATYPE_INTEGER" private field.(ÆÔî
+L
+java:S1068"1Remove this unused "DATATYPE_LONG" private field.(«ãÞ¯ûÿÿÿÿ
+M
+java:S1068""2Remove this unused "DATATYPE_FLOAT" private field.(ßªÂ¾þÿÿÿÿ
+I
+java:S1068&"3Remove this unused "DATATYPE_DOUBLE" private field.(­ÚîÔ
+>
+java:S1068("(Remove this unused "type" private field.(÷ü™¸

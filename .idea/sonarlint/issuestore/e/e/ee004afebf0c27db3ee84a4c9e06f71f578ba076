@@ -1,0 +1,24 @@
+
+P
+java:S14812"3Remove this unused "releaseTrainee" local variable.(˜Ä¸Ø8óı·Ÿ/
+?
+java:S1481;")Remove this unused "date" local variable.(Î‡ùş
+G
+java:S1481U",Remove this unused "dateEnd" local variable.(‚›ğ×ùÿÿÿÿ
+_
+java:S1128"=Remove this unused import 'com.edu.hutech.dtos.AjaxResponse'.(âšö»ÿÿÿÿÿ8ÕœÑİŸ/
+]	java:S125d"<This block of commented-out lines of code should be removed.(ÆÊ˜Âùÿÿÿÿ8 …¨¼/
+D
+java:S1481T".Remove this unused "dateStart" local variable.(Áå¿
+`
+java:S11924"KDefine a constant instead of duplicating this literal "yyyy-MM-dd" 4 times.(Ñ½øH
+V	java:S125b"<This block of commented-out lines of code should be removed.(ÿÌ±×üÿÿÿÿ
+E
+java:S1481<"/Remove this unused "dateFormat" local variable.(ûú»ú
+f
+java:S1128"DRemove this unused import 'org.springframework.http.ResponseEntity'.(¶¯ø¦úÿÿÿÿ8ÕœÑİŸ/
+P
+java:S14811"3Remove this unused "waitingTrainee" local variable.(õ˜³ç8÷Şü·Ÿ/
+t
+java:S3776+"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(€Ş¸°ûÿÿÿÿ8›Ÿù·Ÿ/
+V	java:S125="<This block of commented-out lines of code should be removed.(èôÜàıÿÿÿÿ

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout-template.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="currentPage='Trainer Management',currentLink='Trainer Management',currentTemplate='Default Management'"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Trainer Management</title>
+</head>
+
+<body>
+<div layout:fragment="content" class="content">
+
+    <div class="container-fluid">
+        <div class="d-flex justify-content-end mb-4">
+            <form th:action="@{/trainer-management}" method="GET"
+                  class="col-md-4 d-flex flex-row justify-content-end p-0">
+                <div class="input-group col-md-8 p-0">
+                    <input type="text" class="form-control" placeholder="Search" id="search" th:name="search"
+                           th:value="${search}">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <input type="hidden" id="message" th:value="${message}">
+        <div class="row mb-4 justify-content-end" sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="col-md-3">
+                <a id="add" href="/trainer-management/add-trainer" class="btn btn-primary btn-block">Add Trainer</a>
+            </div>
+        </div>
+
+
+        <form method="GET" th:action="@{/trainer-management}">
+            <div class="row d-flex justify-content-between">
+                <div class="d-flex col-md-10 pl-0 justify-content-start">
+
+                    <div class="col-md-1 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false"><i class="fa fa-sort-amount-asc"
+                                                                              aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item"
+                               th:href="@{/trainer-management(size=${size},field = ${'default'})}">Default</a>
+                            <a class="dropdown-item"
+                               th:href="@{/trainer-management(size=${size},field = ${'email-asc'})}">Email
+                                - ASC</a>
+                            <a class="dropdown-item"
+                               th:href="@{/trainer-management(size=${size},field = ${'account-asc'})}">Account
+                                - ASC</a>
+                          </div>
+                    </div>
+                    <div class="col-md-1 d-flex ml-3 justify-content-end" sec:authorize="isAuthenticated()">
+                        <a type="button" class="btn btn-primary"
+                           th:href="@{/trainer-management/export(size=${size},page=${i},field = ${field})}"><i
+                                class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="input-group col-md-2">
+                    <div class="input-group-prepend align-self-center">
+                        <span class="input-group-text">Show rows:&nbsp;</span>
+                    </div>
+                    <input type="number" class="form-control" name="size" id="size" min="5" max="500"
+                           th:value="${size}">
+                    <input name="field" id="field" th:value="${field}" hidden>
+                    <input type="submit" hidden>
+                </div>
+            </div>
+        </form>
+        <div class="row mt-2">
+            <div class="col-md-12">
+                <div class="strpied-tabled-with-hover">
+                    <div class="card-body table-full-width table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>NAME</th>
+                                <th>ACCOUNT</th>
+                                <th>EMAIL</th>
+                                <th>TEL NUMBER</th>
+                                <th  sec:authorize="hasRole('ROLE_ADMIN')">UPDATE</th>
+                                <th  sec:authorize="hasRole('ROLE_ADMIN')">DELETE</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="trainer : ${trainers}">
+                                <td th:text="${trainerStat.index + 1 + currIndex}"></td>
+                                <td th:text="${trainer.name}"></td>
+                                <td th:text="${trainer.user.account}"></td>
+                                <td th:text="${trainer.email}"></td>
+                                <td th:text="${trainer.telPhone}"></td>
+                                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <a  type="button" class="btn btn-primary"
+                                       th:href="@{/trainer-management/update-trainer(id=${trainer.id})}">
+                                        Update
+                                    </a>
+                                </td>
+                                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal" onclick="Modal.delete($(this))" th:data="${trainer.id}">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mt-3" th:if="${totalElements > size}">
+                <nav aria-label="Pagination">
+                    <ul class="pagination justify-content-center font-weight-bold">
+                        <li class="page-item" th:classappend="${paginationRange.currentPage le 1} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/trainer-management(page=${1},size=${size},field=${field})}"
+                               aria-label="Previous" title="First Page" data-toggle="tooltip">
+                                <span aria-hidden="true">First</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:classappend="${paginationRange.currentPage le 1} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/trainer-management(page=${cPage - 1},size=${size},field=${field})}"
+                               aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence( paginationRange.min, paginationRange.max)}"
+                            th:classappend="${i eq paginationRange.currentPage} ? 'active'">
+                            <a class="page-link"
+                               th:href="@{/trainer-management(page=${i},size=${size},field=${field})}"
+                               th:text="${i}"
+                               th:title="${'Page '+ i}" data-toggle="tooltip">
+                            </a>
+                        </li>
+                        <li class="page-item"
+                            th:classappend="${paginationRange.currentPage ge totalPages } ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/trainer-management(page=${cPage + 1},size=${size},field=${field})}"
+                               aria-label="Next" title="Next Page" data-toggle="tooltip">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"
+                            th:classappend="${paginationRange.currentPage ge totalPages } ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/trainer-management(page=${totalPages},size=${size},field=${field})}"
+                               aria-label="Next" title="Last Page" data-toggle="tooltip">
+                                <span aria-hidden="true">Last</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

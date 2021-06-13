@@ -1,0 +1,17 @@
+
+a
+java:S1128"ERemove this unused import 'org.springframework.util.CollectionUtils'.(åå…K8ç÷ÜŸ/
+R
+java:S1066Š"/Merge this if statement with the enclosing one.(ø¥Ííÿÿÿÿÿ8¡ÿÜŸ/
+T
+java:S1135\"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿ8°Ëàß/
+t
+java:S3776a"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(ıë×šıÿÿÿÿ8œ¶üÜŸ/
+a
+java:S1155‰">Use isEmpty() to check whether the collection is empty or not.(È¬½Õıÿÿÿÿ8ê´şÜŸ/
+D
+java:S1481‡"&Remove this unused "x" local variable.(¥ëÇĞ8šÉ¿ÚŸ/
+T
+java:S1135I"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿ8°Ëàß/
+H
+java:S1168]"+Return an empty collection instead of null.(¥¹ï8°Ëàß/
