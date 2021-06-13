@@ -8,7 +8,8 @@ project 3: Graduation Thesis
  
 3 - insert into demo.user_role value (1,1); -> set role for admin.
 
-4 - add value in table role as.:
+4 - add value in table role as:.
+
 ![image](https://user-images.githubusercontent.com/66460744/121799537-e5d30e00-cc56-11eb-812f-abaee11dcb2f.png).
 
 5 - The final need edit to create-drop to update in the file application.properties.
