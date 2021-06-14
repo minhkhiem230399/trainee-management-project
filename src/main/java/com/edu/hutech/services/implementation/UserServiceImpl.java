@@ -62,14 +62,20 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findAll(pageable);
     }
 
-    public boolean checkEmail(String email){
+    /**
+     * check mail
+     *
+     * @param email
+     * @return
+     */
+    public boolean checkEmail(String email) {
         String account = email.substring(0, email.indexOf("@"));
         List<User> userList = getAll();
 
         int dem = 0;
 
-        for(User user : userList){
-            if(account.equals(user.getAccount()) || account.equals("admin")){
+        for (User user : userList) {
+            if (account.equals(user.getAccount()) || account.equals("admin")) {
                 dem++;
             }
         }

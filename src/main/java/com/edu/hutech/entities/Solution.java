@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "solution")
-public class Solution extends BaseEntity{
+public class Solution extends BaseEntity {
 
     @Column(name = "content")
     private String content;

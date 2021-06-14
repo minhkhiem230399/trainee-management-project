@@ -60,12 +60,7 @@ public class Trainee extends BaseEntity implements Serializable {
     private List<TraineeSubject> traineeSubjects = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id",  referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
-
-//    @OneToMany(mappedBy = "trainee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<Certificates> certificate;
-
 
 }

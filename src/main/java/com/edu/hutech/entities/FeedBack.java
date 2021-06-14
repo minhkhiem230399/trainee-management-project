@@ -20,19 +20,12 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "feedback")
-public class FeedBack extends BaseEntity{
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "idto", referencedColumnName = "id")
-//    private TrainingObjective trainingObjective;
+public class FeedBack extends BaseEntity {
 
     @Column(name = "consult_date")
     private Date consultDate;
 
     @Column(name = "feed_back_score")
     private float feedBackScore;
-
-//    @OneToMany(mappedBy = "feedback" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<QuestionFeedBack> questionList;
 
 }

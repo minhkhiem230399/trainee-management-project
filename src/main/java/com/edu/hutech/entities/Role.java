@@ -1,5 +1,6 @@
 package com.edu.hutech.entities;
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
@@ -10,10 +11,10 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "role")
 public class Role implements Serializable, GrantedAuthority {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -24,23 +25,8 @@ public class Role implements Serializable, GrantedAuthority {
     @Column(name = "name", nullable = false)
     private String name;
 
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "roles")
     private Set<User> users = new HashSet<>();
-
-    public Role() {
-    }
-
-    public Role(String name) {
-        this.name = name;
-    }
-
-    public Role(int i, String roleTrainer) {
-        this.id = i;
-        this.name = roleTrainer;
-    }
-
-
 
     @Override
     public String getAuthority() {

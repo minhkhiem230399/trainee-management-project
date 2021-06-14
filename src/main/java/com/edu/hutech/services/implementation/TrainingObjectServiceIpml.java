@@ -15,10 +15,7 @@ import java.util.List;
 public class TrainingObjectServiceIpml implements TrainingObjectService {
 
     @Autowired
-    TrainingObjectiveRepository trainingObjectiveRepository;
-
-
-
+    private TrainingObjectiveRepository trainingObjectiveRepository;
 
     @Override
     public void save(TrainingObjective trainingObjective) {
@@ -27,39 +24,54 @@ public class TrainingObjectServiceIpml implements TrainingObjectService {
 
     @Override
     public void update(TrainingObjective trainingObjective) {
-
     }
 
     @Override
     public void delete(Integer theId) {
-
     }
 
+    /**
+     * find by Id
+     *
+     * @param id
+     * @return trainingObjective
+     */
     @Override
     public TrainingObjective findById(Integer id) {
         List<TrainingObjective> trainingObjectiveList = getAll();
-        for (TrainingObjective trainingObjective : trainingObjectiveList){
-            if(trainingObjective.getId().equals(id)){
+        for (TrainingObjective trainingObjective : trainingObjectiveList) {
+            if (trainingObjective.getId().equals(id)) {
                 return trainingObjective;
             }
         }
         return null;
     }
 
+    /**
+     * get all
+     *
+     * @return trainingObjectives
+     */
     @Override
     public List<TrainingObjective> getAll() {
         List<TrainingObjective> trainingObjectives = trainingObjectiveRepository.findAll();
-        trainingObjectives.removeIf(trainingObjective -> trainingObjective.getDelFlag() == 1 );
+        trainingObjectives.removeIf(trainingObjective -> trainingObjective.getDelFlag() == 1);
         return trainingObjectives;
     }
 
+    /**
+     * get all name
+     *
+     * @param name
+     * @return nameTraining
+     */
     public List<TrainingObjective> getAllName(String name) {
         List<TrainingObjective> nameTraining = new ArrayList<>();
-       for (TrainingObjective trainingObjective : getAll()){
-           if(trainingObjective.getName().equals(name)){
-               nameTraining.add(trainingObjective);
-           }
-       }
+        for (TrainingObjective trainingObjective : getAll()) {
+            if (trainingObjective.getName().equals(name)) {
+                nameTraining.add(trainingObjective);
+            }
+        }
         return nameTraining;
     }
 

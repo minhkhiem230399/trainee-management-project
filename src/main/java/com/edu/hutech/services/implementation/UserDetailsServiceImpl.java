@@ -12,21 +12,26 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService  {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @PersistenceContext
     protected EntityManager entityManager;
 
     @Autowired
-    TrainerServiceImpl trainerService;
+    private TrainerServiceImpl trainerService;
 
+    /**
+     * @param account
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
-        try{
-            String sql = "Select * from demo.user where account ='"+ account +"'";
+        try {
+            String sql = "Select * from demo.user where account ='" + account + "'";
             Query query = entityManager.createNativeQuery(sql, User.class);
             return (User) query.getSingleResult();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

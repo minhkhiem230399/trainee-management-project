@@ -23,28 +23,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
+/**
+ * User Controller
+ * author: KhiemKM
+ */
 @Controller
 @RequestMapping()
 public class UserController {
 
     @Autowired
-    TraineeServiceImpl traineeService;
-
-    @Autowired
-    CourseServiceImpl courseService;
-
-    @Autowired
-    UserServiceImpl userService;
-
-    @Autowired
-    TrainerServiceImpl trainerService;
+    private UserServiceImpl userService;
 
     @GetMapping("/login")
     public String getLogin() {
         return "pages/user-views/login";
     }
 
+    /**
+     * Check mail
+     *
+     * @param email
+     * @return
+     */
     @PostMapping("/check-email")
     public ResponseEntity<AjaxResponse> checkEmail(@RequestBody String email) {
         if (userService.checkEmail(email)) {
@@ -58,10 +58,17 @@ public class UserController {
         return "/pages/util-views/404";
     }
 
+    /**
+     * Change password
+     *
+     * @param data
+     * @param request
+     * @return
+     */
     @PostMapping("/change-password")
     public ResponseEntity<AjaxResponse> updateUserPassword(@RequestBody String data, final HttpServletRequest request) {
-
         JSONObject json = new JSONObject(data);
+
         String old = json.getString("old");
         String news = json.getString("new");
         String re = json.getString("retype");
@@ -74,22 +81,25 @@ public class UserController {
             if (old.equals(news)) {
                 return ResponseEntity.ok(new AjaxResponse(401, data));
             }
-
             if (!news.equals(re)) {
                 return ResponseEntity.ok(new AjaxResponse(402, data));
             }
-
             if (!encoder.matches(old, user.getPassword())) {
                 return ResponseEntity.ok(new AjaxResponse(400, data));
             }
-
             user.setPassword(encoder.encode(news));
             userService.save(user);
         }
-
         return ResponseEntity.ok(new AjaxResponse(200, data));
     }
 
+    /**
+     * Change password 1
+     *
+     * @param data
+     * @param request
+     * @return
+     */
     @PostMapping("/change-password1")
     public ResponseEntity<AjaxResponse> updateUserPassword1(@RequestBody String data, final HttpServletRequest request) {
 
@@ -118,11 +128,16 @@ public class UserController {
             user.setPassword(encoder.encode(news));
             userService.save(user);
         }
-
         return ResponseEntity.ok(new AjaxResponse(200, data));
     }
 
-
+    /**
+     * Get user details
+     *
+     * @param model
+     * @param request
+     * @return
+     */
     @GetMapping("/my-account")
     public String showDetailsUser(final ModelMap model, final HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -147,6 +162,5 @@ public class UserController {
         model.addAttribute("accountRole", session.getAttribute("role"));
         return "pages/user-views/user-details";
     }
-
 
 }

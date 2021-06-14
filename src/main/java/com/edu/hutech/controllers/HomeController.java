@@ -1,14 +1,11 @@
 package com.edu.hutech.controllers;
 
-import com.edu.hutech.dtos.AjaxResponse;
 import com.edu.hutech.entities.Course;
 import com.edu.hutech.entities.Trainee;
 import com.edu.hutech.entities.TraineeCourse;
 import com.edu.hutech.repositories.CourseRepository;
 import com.edu.hutech.repositories.TraineeRepository;
-import com.edu.hutech.services.implementation.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +14,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Home Controller
+ * author: KhiemKM
+ */
 @Controller
 @RequestMapping(value = {"/dashboard", "/"})
 public class HomeController {
@@ -25,19 +26,15 @@ public class HomeController {
     private CourseRepository courseRepository;
 
     @Autowired
-    UserServiceImpl userService;
-
-
-
-    @Autowired
     private TraineeRepository traineeRepository;
 
-
     /**
-     * Handling Home request
+     * View home page
      *
      * @param model
-     * @return the reporting view of trainee and class
+     * @param startDate
+     * @param endDate
+     * @return
      */
     @GetMapping()
     public String viewHomePage(Model model, @RequestParam("start-date") Optional<String> startDate,
@@ -75,16 +72,13 @@ public class HomeController {
                 if (c.getStatusProgress().equals("FINISHED") && c.getDelFlag() == 0){
                     releaseCourse++;
                 }
-
                 if (c.getStatusProgress().equals("WAITING") && c.getDelFlag() == 0){
                     waitingCourse++;
                 }
-
                 if(c.getStatusProgress().equals("RUNNING") && c.getDelFlag() == 0){
                     runningCourse++;
                 }
             }
-
         } else {
 
             Date dateStart = new Date();
@@ -100,8 +94,8 @@ public class HomeController {
                 e.printStackTrace();
             }
 
-           // listCourse = courseRepository.findAllByOpenDateGreaterThanEqualAndEndDateLessThanEqual(dateStart, dateEnd);
-
+//            listCourse = courseRepository.findAllByOpenDateGreaterThanEqualAndEndDateLessThanEqual(dateStart, dateEnd);
+//
 //            for (Course c : listCourse) {
 //                if (c.getStatus().equals("Done"))
 //                    releaseCourse++;

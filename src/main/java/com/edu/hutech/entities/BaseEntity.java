@@ -1,16 +1,15 @@
 package com.edu.hutech.entities;
 
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
 public abstract class BaseEntity {
 
-    @Id // xác định đây là khoá chính.
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment.
     @Column(name = "id")
-    private Integer id; // primary-key
+    private Integer id;
 
     @Column(name = "created_date", nullable = true)
     private LocalDateTime createdDate;

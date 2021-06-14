@@ -19,8 +19,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "issue")
-public class Issue extends BaseEntity{
-
+public class Issue extends BaseEntity {
 
     @Column(name = "description")
     private String description;

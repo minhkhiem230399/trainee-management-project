@@ -15,6 +15,14 @@ public class UserAccessDeniedHandler implements AuthenticationEntryPoint {
 
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+    /**
+     *
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param e
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         HttpSession session = httpServletRequest.getSession();

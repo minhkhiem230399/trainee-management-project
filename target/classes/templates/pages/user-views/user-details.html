@@ -4,11 +4,10 @@
       th:with="currentPage='User Details',currentLink='User Details',currentTemplate='User Profile'">
 >
 <head>
-    <title>User Management System</title>
+    <title>My Account</title>
 </head>
 <body>
 <div layout:fragment="content" class="content">
-
     <div class="background-content p-5 smaller-font profile-right"
          id="content-body-right">
         <div class="nav">
@@ -23,16 +22,6 @@
                         <div>
                             <table border="0">
                                 <tbody>
-                                <!--                            <tr>-->
-                                <!--                                <td>Role</td>-->
-                                <!--                                <td th:if="${user.userRoles.userRoleName == null}">:</td>-->
-                                <!--                                <td th:if="${user.userRoles.userRoleName.equals('ROLE_LEADER')}">: <span-->
-                                <!--                                        id="accountRole">Leader</span></td>-->
-                                <!--                                <td th:if="${user.userRoles.userRoleName.equals('ROLE_MANAGER')}">: <span-->
-                                <!--                                        id="accountRole">Manager</span></td>-->
-                                <!--                                <td th:if="${user.userRoles.userRoleName.equals('ROLE_STAFF')}">: <span-->
-                                <!--                                        id="accountRole">Staff</span></td>-->
-                                <!--                            </tr>-->
                                 <tr>
                                     <td style="width: 150px">Full Name:</td>
                                     <td class="font-weight-bold ml-3" th:utext="${userss.getName()}"></td>
@@ -55,14 +44,14 @@
                     </div>
                 </div>
 
-                <div class="col-6">
+                <div class="col-7">
                     <div th:switch="${accountRole}">
                         <span th:case="ROLE_TRAINER">
-                            <h2 class="text-center pt-4" style="color: #60a6e4">Welcome Trainer, [[${userss.name}]]</h2>
+                            <h2 class="text-center pt-5" style="color: #60a6e4">Welcome Trainer, [[${userss.name}]]</h2>
                             <hr/>
                             <div class="space-document mb-3">Let's start to work with your Trainer Role.</div>
                             <ul class="mt-1">
-                                <li>Update CRF™ account <a class="btn btn-primary margin-button"
+                                <li>Update SRU™ account <a class="btn btn-primary margin-button"
                                                            th:href="@{/trainer-management/update-trainer(id=${userss.id})}"
                                                            role="button">Update Account</a> and register for using System™
                                     Services.
@@ -86,19 +75,20 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="form-group row">
-                                                        <label class="col-4">Old Password</label>
-                                                        <input placeholder="Enter old password..." id="password-old" type="password" class="form-control col-8" required>
-                                                    </div>
-
-                                                    <div class="form-group row">
-                                                        <label class="col-4">New Password</label>
-                                                        <input placeholder="Enter replay new password..." id="password-new"
+                                                        <label class="col-5">Current Password</label>
+                                                        <input placeholder="Enter current password..." id="password-old"
                                                                type="password" class="form-control col-8" required>
                                                     </div>
 
                                                     <div class="form-group row">
-                                                        <label class="col-4">Retype Password</label>
-                                                        <input placeholder="Enter account trainee..." id="password-re"
+                                                        <label class="col-5">New Password</label>
+                                                        <input placeholder="Enter new password..." id="password-new"
+                                                               type="password" class="form-control col-8" required>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-5">Confirm Password</label>
+                                                        <input placeholder="Enter confirm password..." id="password-re"
                                                                type="password" class="form-control col-8" required>
                                                     </div>
                                                 </div>
@@ -106,16 +96,16 @@
                                                     <button type="button" class="btn btn-primary"
                                                             onclick="Modal.changePassword()">Save changes</button>
                                                     <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Close
+                                                            data-dismiss="modal">Cancel
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
-                                <li>Change CRF™ Photo, click <a class="btn btn-primary margin-button"
-                                                                href="/my-account/photo"
-                                                                role="button">Change Photo</a>
+                                <li><a class="btn btn-primary margin-button"
+                                       href="/my-account/photo"
+                                       role="button">Change Photo</a>
                                 </li>
                             </ul>
                         </span>
@@ -124,7 +114,7 @@
                             <hr/>
                             <div class="space-document mb-3">Let's start to work with your Trainee Role.</div>
                             <ul class="mt-1">
-                                <li>Update CRF™ account <a class="btn btn-primary margin-button"
+                                <li>Update SRU™ account <a class="btn btn-primary margin-button"
                                                            th:href="@{/trainee-management/trainee-details(id=${userss.id})}"
                                                            role="button">Update Account</a> and register for using System™
                                     Services.
@@ -133,7 +123,6 @@
                                                                            data-toggle="modal" data-target="#modal1">
                                         Change Password
                                     </button>
-
                                     <!-- Modal -->
                                     <div class="modal fade" id="modal1" tabindex="-1" role="dialog"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -148,19 +137,22 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="form-group row">
-                                                        <label class="col-4">Old Password</label>
-                                                        <input placeholder="Enter old password..." id="password-old1" type="password" class="form-control col-8" required>
-                                                    </div>
-
-                                                    <div class="form-group row">
-                                                        <label class="col-4">New Password</label>
-                                                        <input placeholder="Enter replay new password..." id="password-new1"
+                                                        <label class="col-4">Current Password</label>
+                                                        <input placeholder="Enter current password..."
+                                                               id="password-old1"
                                                                type="password" class="form-control col-8" required>
                                                     </div>
 
                                                     <div class="form-group row">
-                                                        <label class="col-4">Retype Password</label>
-                                                        <input placeholder="Enter account trainee..." id="password-re1"
+                                                        <label class="col-4">New Password</label>
+                                                        <input placeholder="Enter new password..."
+                                                               id="password-new1"
+                                                               type="password" class="form-control col-8" required>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-4">Confirm Password</label>
+                                                        <input placeholder="Enter confirm trainee..." id="password-re1"
                                                                type="password" class="form-control col-8" required>
                                                     </div>
                                                 </div>
@@ -168,16 +160,16 @@
                                                     <button type="button" class="btn btn-primary"
                                                             onclick="Modal.changePassword1()">Save changes</button>
                                                     <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Close
+                                                            data-dismiss="modal">Cancel
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
-                                <li>Change CRF™ Photo, click <a class="btn btn-primary margin-button"
-                                                                href="/my-account/photo"
-                                                                role="button">Change Photo</a>
+                                <li><a class="btn btn-primary margin-button"
+                                       href="/my-account/photo"
+                                       role="button">Change Photo</a>
                                 </li>
                             </ul>
                         </span>

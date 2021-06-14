@@ -15,11 +15,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "question_feedback")
-public class QuestionFeedBack extends BaseEntity{
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "id_feedback", referencedColumnName = "id")
-//    private FeedBack feedBack;
+public class QuestionFeedBack extends BaseEntity {
 
     @Column(name = "group_of_question")
     private String groupOfQuestion;

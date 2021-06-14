@@ -5,11 +5,13 @@ import javax.persistence.ManyToOne;
 
 import com.edu.hutech.entities.Trainee;
 import com.edu.hutech.entities.TrainingObjective;
+import lombok.Data;
 
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
 
+@Data
 @Embeddable
 public class ScoreId implements Serializable {
 
@@ -20,21 +22,5 @@ public class ScoreId implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     private TrainingObjective trainingObjective;
-
-    public Trainee getTrainee() {
-        return trainee;
-    }
-
-    public void setTrainee(Trainee trainee) {
-        this.trainee = trainee;
-    }
-
-    public TrainingObjective getTrainingObjective() {
-        return trainingObjective;
-    }
-
-    public void setTrainingObjective(TrainingObjective trainingObjective) {
-        this.trainingObjective = trainingObjective;
-    }
 
 }

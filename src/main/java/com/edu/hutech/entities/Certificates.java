@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "certificate")
-public class Certificates extends BaseEntity{
+public class Certificates extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "trainee_id", nullable = false, referencedColumnName = "Id")

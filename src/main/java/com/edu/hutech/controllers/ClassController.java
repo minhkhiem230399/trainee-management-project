@@ -25,13 +25,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+/**
+ * Class Controller
+ * Author: KhiemKM
+ */
 @Controller
 @RequestMapping("/class-management")
 public class ClassController {
 
     @Autowired
     TrainerServiceImpl trainerService;
-
 
     @Autowired
     TraineeServiceImpl traineeService;
@@ -81,22 +84,20 @@ public class ClassController {
         Integer traineeId = null;
         Integer trainerId = null;
         assert false;
-        if(session.getAttribute("userId") != null){
-            if(session.getAttribute("role").equals("ROLE_TRAINER")){
+        if (session.getAttribute("userId") != null) {
+            if (session.getAttribute("role").equals("ROLE_TRAINER")) {
                 trainerId = (Integer) session.getAttribute("userId");
-            }else {
+            } else {
                 traineeId = (Integer) session.getAttribute("userId");
             }
         }
 
         classPage = courseService.searchByDto(x, trainerId, traineeId);
 
-
         model.addAttribute("classPage", classPage);
         model.addAttribute("cPage", cPage);
         model.addAttribute("size", pageSize);
         model.addAttribute("field", sortField);
-
 
         PaginationRange p = Pagination.paginationByRange(cPage, classPage.getTotalElements(), pageSize, 5);
         model.addAttribute("paginationRange", p);
@@ -104,15 +105,29 @@ public class ClassController {
         return "pages/class-views/class-management";
     }
 
+    /**
+     * get trainers to create class
+     *
+     * @param model
+     * @param request
+     * @return
+     */
     @GetMapping("/add-class")
     public String addClass(final ModelMap model, final HttpServletRequest request) {
         model.addAttribute("trainers", trainerService.getAll());
         return "pages/class-views/class-create-new";
     }
 
+    /**
+     * create add
+     *
+     * @param model
+     * @param data
+     * @return
+     */
     @PostMapping("/add-class")
     public ResponseEntity<AjaxResponse> add(final ModelMap model,
-                      @RequestBody String data) {
+                                            @RequestBody String data) {
         JSONObject json = new JSONObject(data);
         Course course = new Course();
         course.setName(json.getString("name"));
@@ -124,11 +139,11 @@ public class ClassController {
         List<Object> list = arr.toList();
 
         Set<Integer> hashSet = new HashSet<>();
-        for (Object l : list){
+        for (Object l : list) {
             hashSet.add((Integer) l);
         }
         List<TrainingObjective> trainingObjectiveList = new ArrayList<>();
-        for (Integer i : hashSet){
+        for (Integer i : hashSet) {
             TrainingObjective trainingObjective = trainingObjectService.findById(i);
 //            trainingObjectService.save(trainingObjective);
             trainingObjectiveList.add(trainingObjective);
@@ -136,17 +151,22 @@ public class ClassController {
         course.setTrainingObjectives(trainingObjectiveList);
         courseService.save(course);
 
-
         return ResponseEntity.ok(new AjaxResponse(200, data));
     }
 
-    @RequestMapping(value="/trainingObjectName")
+    /**
+     * get object name to create class
+     *
+     * @param term
+     * @return
+     */
+    @RequestMapping(value = "/trainingObjectName")
     @ResponseBody
-    public List<LabelValueDTO> plantNamesAutocomplete(@RequestParam(value="term", required = false, defaultValue="") String term)  {
+    public List<LabelValueDTO> plantNamesAutocomplete(@RequestParam(value = "term", required = false, defaultValue = "") String term) {
         List<TrainingObjective> all = trainingObjectService.getAll();
         List<LabelValueDTO> labelValueDTOS = new ArrayList<>();
-        for (TrainingObjective trainingObjective : all){
-            if(trainingObjective.getName().toLowerCase().contains(term.toLowerCase())){
+        for (TrainingObjective trainingObjective : all) {
+            if (trainingObjective.getName().toLowerCase().contains(term.toLowerCase())) {
                 LabelValueDTO labelValueDTO = new LabelValueDTO();
                 labelValueDTO.setLabel(trainingObjective.getName());
                 labelValueDTO.setValue(trainingObjective.getId());
@@ -157,8 +177,18 @@ public class ClassController {
 
     }
 
+    /**
+     * View class details
+     *
+     * @param model
+     * @param id
+     * @param page
+     * @param size
+     * @param view
+     * @return
+     */
     @GetMapping("/class-details")
-    public String detail(Model model,@RequestParam Integer id,
+    public String detail(Model model, @RequestParam Integer id,
                          @RequestParam("page") Optional<Integer> page,
                          @RequestParam("size") Optional<Integer> size,
                          @RequestParam("view") Optional<String> view) {
@@ -175,16 +205,16 @@ public class ClassController {
         List<TraineeCourse> traineeCourseList = null;
         traineeCourseList = traineeCourseService.getTraineeCourseByCourseId(id);
         List<Trainee> traineeList = new ArrayList<>();
-        for (TraineeCourse traineeCourse : traineeCourseList){
+        for (TraineeCourse traineeCourse : traineeCourseList) {
             traineeList.add(traineeCourse.getTrainee());
-            if(traineeCourse.getScore() >= 5){
+            if (traineeCourse.getScore() >= 5) {
                 pass++;
-            }else {
-                if(traineeCourse.getScore() > 0){
+            } else {
+                if (traineeCourse.getScore() > 0) {
                     failed++;
                 }
             }
-            if(traineeCourse.getScore() == 0){
+            if (traineeCourse.getScore() == 0) {
                 drop++;
             }
         }
@@ -200,7 +230,7 @@ public class ClassController {
         model.addAttribute("size", pageSize);
         model.addAttribute("totalElements", traineeCourseList.size());
         model.addAttribute("totalPages", totalPages);
-        model.addAttribute("pass",pass);
+        model.addAttribute("pass", pass);
         model.addAttribute("failed", failed);
         model.addAttribute("drop", drop);
 
@@ -212,18 +242,22 @@ public class ClassController {
         return "pages/class-views/class-details";
     }
 
+    /**
+     * Add trainee to class
+     *
+     * @param account
+     * @return
+     */
     @PostMapping("/add-trainee")
-    public ResponseEntity<AjaxResponse> addTrainee(@RequestBody String account){
+    public ResponseEntity<AjaxResponse> addTrainee(@RequestBody String account) {
         JSONObject json = new JSONObject(account);
 
-        if(traineeService.getTraineeByAccount(json.get("account").toString()) == null){
+        if (traineeService.getTraineeByAccount(json.get("account").toString()) == null) {
             return ResponseEntity.ok(new AjaxResponse(401, "Email not valid!"));
         }
 
         Trainee trainee = traineeService.getTraineeByAccount(json.get("account").toString());
-
-
-        if(traineeCourseService.checkExistTrainee(json.getInt("classId"), trainee.getId())){
+        if (traineeCourseService.checkExistTrainee(json.getInt("classId"), trainee.getId())) {
             return ResponseEntity.ok(new AjaxResponse(402, "Email existed!"));
         }
 
@@ -232,7 +266,7 @@ public class ClassController {
         List<TrainingObjective> trainingObjectiveList = courseInDB.getTrainingObjectives();
         List<TraineeSubject> traineeSubjects = new ArrayList<>();
 
-        for (TrainingObjective trainingObjective : trainingObjectiveList){
+        for (TrainingObjective trainingObjective : trainingObjectiveList) {
             TraineeSubject traineeSubject = new TraineeSubject();
             traineeSubject.setTrainingObjective(trainingObjective);
             traineeSubject.setTrainee(trainee);
@@ -242,14 +276,12 @@ public class ClassController {
 
         trainee.setTraineeSubjects(traineeSubjects);
         TraineeCourse traineeCourse = new TraineeCourse();
-
         traineeCourse.setTrainee(trainee);
         traineeCourse.setScore(0.0);
 
-
         courseInDB.setCurrCount(courseInDB.getCurrCount() + 1);
 
-        if(courseInDB.getCurrCount() > courseInDB.getPlanCount()){
+        if (courseInDB.getCurrCount() > courseInDB.getPlanCount()) {
             return ResponseEntity.ok(new AjaxResponse(400, "Max count!"));
         }
         courseInDB.addTraineeCourses(traineeCourse);
@@ -257,24 +289,30 @@ public class ClassController {
         return ResponseEntity.ok(new AjaxResponse(200, account));
     }
 
+    /**
+     * View trainee details
+     *
+     * @param model
+     * @param traineeId
+     * @param courseId
+     * @return
+     */
     @GetMapping("/trainee-details")
     public String displayAllTraineeDetails(Model model, @RequestParam("traineeId") Integer traineeId,
-                                           @RequestParam("courseId") Integer courseId
-    ) {
+                                           @RequestParam("courseId") Integer courseId) {
         Trainee trainee = traineeService.findById(traineeId);
         Double finalScore = traineeCourseService.getScoreByTraineeId(courseId, traineeId);
         TraineeCourse traineeCourse = traineeCourseService.getByTCourseIdAndTraineeId(courseId, traineeId);
         double scale = Math.pow(10, 1);
 
-
-        if(trainee != null){
+        if (trainee != null) {
             model.addAttribute("trainee", trainee);
-        }else {
+        } else {
             model.addAttribute("trainee", new Trainee());
         }
-        if(finalScore == null){
+        if (finalScore == null) {
             model.addAttribute("finalScore", (int) (Math.round(0 * scale) / scale) * 10);
-        }else{
+        } else {
             model.addAttribute("finalScore", (int) (Math.round(finalScore * scale) / scale) * 10);
         }
 //        model.addAttribute("presentAttendance", presentAttendance);
@@ -285,9 +323,14 @@ public class ClassController {
         return "pages/class-views/class-trainee-details";
     }
 
+    /**
+     * Create new training object
+     *
+     * @param name
+     * @return
+     */
     @PostMapping("/add-training-object")
-    public ResponseEntity<AjaxResponse> addTrainingObject(@RequestBody String name){
-
+    public ResponseEntity<AjaxResponse> addTrainingObject(@RequestBody String name) {
         TrainingObjective trainingObjective = new TrainingObjective();
         trainingObjective.setName(name);
         trainingObjectService.save(trainingObjective);
@@ -295,8 +338,14 @@ public class ClassController {
         return ResponseEntity.ok(new AjaxResponse(200, trainingObjective));
     }
 
+    /**
+     * Add/Update score to trainee -> ROLE_ADMIN
+     *
+     * @param data
+     * @return
+     */
     @PostMapping("/update-score")
-    public ResponseEntity<AjaxResponse> updateScore(@RequestBody String data){
+    public ResponseEntity<AjaxResponse> updateScore(@RequestBody String data) {
 
         JSONObject json = new JSONObject(data);
         Integer score = json.getInt("score");
@@ -309,21 +358,27 @@ public class ClassController {
         List<TraineeSubject> traineeSubjects = courseService.findSubjectByCourseIdAndTraineeId(courseId, traineeId);
 
         Double finalScore = 0.0;
-        for (TraineeSubject traineeSubject1 : traineeSubjects){
+        for (TraineeSubject traineeSubject1 : traineeSubjects) {
             finalScore += traineeSubject1.getScore();
         }
         TraineeCourse traineeCourse = traineeCourseService.getByTCourseIdAndTraineeId(courseId, traineeId);
-        traineeCourse.setScore(finalScore/traineeSubjects.size());
+        traineeCourse.setScore(finalScore / traineeSubjects.size());
 
         traineeCourseRepository.save(traineeCourse);
         traineeSubjectRepository.save(traineeSubject.orElseThrow());
-        return ResponseEntity.ok(new AjaxResponse(200, finalScore/traineeSubjects.size()));
+        return ResponseEntity.ok(new AjaxResponse(200, finalScore / traineeSubjects.size()));
     }
 
+    /**
+     * Add/Update score to trainee -> ROLE_TRAINER
+     *
+     * @param data
+     * @return
+     */
     @PostMapping("/update-score-review")
-    public ResponseEntity<AjaxResponse> updateScoreReview(@RequestBody String data){
-
+    public ResponseEntity<AjaxResponse> updateScoreReview(@RequestBody String data) {
         JSONObject json = new JSONObject(data);
+
         Integer score = json.getInt("score");
         Integer id = json.getInt("subId");
         Optional<TraineeSubject> traineeSubject = traineeSubjectRepository.findById(id);

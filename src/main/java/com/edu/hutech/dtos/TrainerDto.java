@@ -1,6 +1,8 @@
 package com.edu.hutech.dtos;
 import com.edu.hutech.entities.Trainer;
+import lombok.Data;
 
+@Data
 public class TrainerDto {
 
     public Integer id;

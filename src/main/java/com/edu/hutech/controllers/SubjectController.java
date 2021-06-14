@@ -1,14 +1,10 @@
 package com.edu.hutech.controllers;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.edu.hutech.entities.Course;
-import com.edu.hutech.entities.Trainee;
-import com.edu.hutech.models.PaginationRange;
-import com.edu.hutech.repositories.CourseRepository;
-import com.edu.hutech.utils.page.Pagination;
 
+import com.edu.hutech.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Subject Controller
+ * author: KhiemKM
+ */
 @Controller
 @RequestMapping("/general-management/subject-list")
 public class SubjectController {

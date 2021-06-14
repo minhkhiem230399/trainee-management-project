@@ -5,11 +5,9 @@ import java.util.Optional;
 
 import com.edu.hutech.entities.Course;
 import com.edu.hutech.entities.Trainee;
-import com.edu.hutech.entities.Trainer;
 import com.edu.hutech.models.PaginationRange;
 import com.edu.hutech.repositories.CourseRepository;
 import com.edu.hutech.repositories.TraineeRepository;
-import com.edu.hutech.repositories.TrainerRepository;
 import com.edu.hutech.utils.page.Pagination;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +17,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * General Management Controller
+ * author: KhiemKM
+ */
 @Controller
 @RequestMapping("/general-management")
 public class GeneralManagement {
-
-    @Autowired
-    private TrainerRepository trainerRepository;
 
     @Autowired
     private TraineeRepository traineeRepository;
@@ -32,17 +31,14 @@ public class GeneralManagement {
     @Autowired
     private CourseRepository courseRepository;
 
-
-
     /**
-     * Display trainee list
+     * View list trainee
+     *
      * @param model
      * @return trainee-list view
      */
     @GetMapping("/trainee-list")
     public String displayTraineeList(Model model, @RequestParam("page") Optional<Integer> page) {
-
-
         int cPage = page.orElse(1);
         int pageSize = 5;
 
@@ -53,7 +49,6 @@ public class GeneralManagement {
         int currIndex = trainees.indexOf(traineesAfterPaging.get(0));
         int totalPages = (int) Math.ceil( (double)trainees.size()/ (double) pageSize);
         int totalElements = trainees.size();
-
 
         model.addAttribute("trainees", traineesAfterPaging);
         model.addAttribute("cPage", cPage);

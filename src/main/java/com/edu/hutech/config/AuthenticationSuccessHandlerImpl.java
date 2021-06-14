@@ -23,10 +23,18 @@ import java.security.Principal;
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
     @Autowired
-    UserRepository repository;
+    private UserRepository repository;
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+    /**
+     *
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param authentication
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         User user = null;

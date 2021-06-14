@@ -18,13 +18,12 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     @Qualifier("userDetailsServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
 
     @Autowired
-    AuthenticationSuccessHandler authenticationSuccessHandler;
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,18 +35,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-
+    /**
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http.csrf().disable().authorizeRequests()
 
                 .antMatchers("/css/**", "/js/**", "/img/**", "/file/upload/**").permitAll()
-
                 .antMatchers("/trainee-management/**").hasAnyAuthority("ROLE_TRAINEE", "ROLE_ADMIN")
                 .antMatchers("/trainer-management/**").hasAnyAuthority("ROLE_TRAINER", "ROLE_ADMIN")
-                .antMatchers("/dashboard/**","/class-management/**","/").hasAnyAuthority("ROLE_TRAINER", "ROLE_ADMIN","ROLE_TRAINEE")
-
+                .antMatchers("/dashboard/**", "/class-management/**", "/").hasAnyAuthority("ROLE_TRAINER", "ROLE_ADMIN", "ROLE_TRAINEE")
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new UserAccessDeniedHandler())
                 .accessDeniedPage("/404")
@@ -56,8 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin() // Submit URL of login page.
                 .loginPage("/login")//
                 .permitAll().successHandler(authenticationSuccessHandler)
-//                .usernameParameter("username")
-//                .passwordParameter("password")
+//              .usernameParameter("username")
+//              .passwordParameter("password")
                 .failureUrl("/login?error=true")
 
                 .and()
@@ -67,8 +66,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .permitAll();
-
-
 
     }
 }

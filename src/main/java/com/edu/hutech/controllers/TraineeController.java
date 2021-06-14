@@ -26,6 +26,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+/**
+ * Trainee Controller
+ * author: KhiemKM
+ */
 @Controller
 @Transactional
 @RequestMapping("/trainee-management")
@@ -48,6 +52,18 @@ public class TraineeController {
     @Autowired
     UserServiceImpl userService;
 
+    /**
+     * View trainee management
+     *
+     * @param model
+     * @param request
+     * @param page
+     * @param size
+     * @param field
+     * @param view
+     * @param search
+     * @return
+     */
     @GetMapping()
     public String displayTraineeManagement(Model model, final HttpServletRequest request,
                                            @RequestParam("page") Optional<Integer> page,
@@ -77,7 +93,6 @@ public class TraineeController {
 
         List<Trainee> trainees = Pagination.getPage(listTrainees, cPage, pageSize);
 
-
         int totalPages = (int) Math.ceil((double) listTrainees.size() / (double) pageSize);
 
         HttpSession session = request.getSession();
@@ -100,6 +115,12 @@ public class TraineeController {
         return "pages/trainee-views/trainee-management";
     }
 
+    /**
+     * Message create account trainee
+     * @param model
+     * @param request
+     * @return
+     */
     @GetMapping("/add-trainee")
     public String addView(final ModelMap model, final HttpServletRequest request) {
         model.addAttribute("message", "");
@@ -113,6 +134,13 @@ public class TraineeController {
         return "pages/trainee-views/trainee-create-new";
     }
 
+    /**
+     * Create account trainee -> ROLE_ADMIN
+     *
+     * @param model
+     * @param trainee
+     * @return
+     */
     @Transactional
     @PostMapping("/add-trainee")
     public String add(final ModelMap model,
@@ -121,7 +149,6 @@ public class TraineeController {
         trainee.getUser().setPassword(encoder.encode(trainee.getUser().getPassword()));
 
         String account = trainee.getEmail();
-
         trainee.getUser().setAccount(account.substring(0, account.indexOf("@")));
 
         trainee.getUser().setRoles(roleService.findByName("ROLE_TRAINEE"));
@@ -134,6 +161,13 @@ public class TraineeController {
         return "redirect:/trainee-management/add-trainee?message=success";
     }
 
+    /**
+     * Update trainee
+     *
+     * @param request
+     * @param trainee
+     * @return
+     */
     @Transactional
     @PostMapping("/update-trainee")
     public String update(final HttpServletRequest request,
@@ -144,12 +178,26 @@ public class TraineeController {
         return "redirect:/trainee-management";
     }
 
+    /**
+     * Delete trainee
+     *
+     * @param id
+     * @return
+     */
     @PostMapping("/delete")
     public ResponseEntity<AjaxResponse> delete(@RequestBody Integer id) {
         traineeService.delete(id);
         return ResponseEntity.ok(new AjaxResponse(200, "OK"));
     }
 
+    /**
+     * View trainee details
+     *
+     * @param model
+     * @param id
+     * @param request
+     * @return
+     */
     @GetMapping("/trainee-details")
     public String displayAllTraineeDetails(Model model, @RequestParam("id") Integer id, final HttpServletRequest request) {
         Trainee trainee = traineeService.findById(id);

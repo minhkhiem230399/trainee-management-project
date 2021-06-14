@@ -11,25 +11,6 @@ import java.util.List;
 @Repository
 public interface TraineeRepository extends JpaRepository<Trainee, Integer> {
 
-//    /**
-//     *
-//     * @param courseId
-//     * @return
-//     */
-//    @Query("SELECT COUNT(t.course) FROM Trainee t WHERE t.course.id = ?1")
-//    int countCourseByCourseId(int courseId);
-//
-    /**
-     * Find the list of trainee infor and trainee average score of 1 course
-     * @param id is ID of trainee
-     * @return list of trainee infor
-     */
-
-
-    /**
-     * find the avg score and infor of all trainee
-     * @return list of trainee infor with score
-     */
     @Query(value = "select * from trainee where del_flag = 0", nativeQuery = true)
     List<Trainee> findScoreByAllTrainee();
 

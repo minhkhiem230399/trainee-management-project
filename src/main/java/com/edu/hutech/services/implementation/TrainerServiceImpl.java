@@ -1,6 +1,5 @@
 package com.edu.hutech.services.implementation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.edu.hutech.entities.Course;
@@ -16,16 +15,21 @@ import org.springframework.stereotype.Service;
 public class TrainerServiceImpl implements TrainerService {
 
     @Autowired
-    TrainerRepository trainerRepository;
+    private TrainerRepository trainerRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public void save(Trainer trainer) {
         trainerRepository.save(trainer);
     }
 
+    /**
+     * update trainer
+     *
+     * @param trainer
+     */
     @Override
     public void update(Trainer trainer) {
         Trainer trainerInDB = trainerRepository.getOne(trainer.getId());
@@ -38,12 +42,17 @@ public class TrainerServiceImpl implements TrainerService {
         trainerRepository.save(trainerInDB);
     }
 
+    /**
+     * delete trainer
+     *
+     * @param id
+     */
     @Override
     public void delete(Integer id) {
         Trainer trainer = trainerRepository.getOne(id);
         trainer.setDelFlag(1);
         trainer.getUser().setDelFlag(1);
-        for (Course course : trainer.getCourseList()){
+        for (Course course : trainer.getCourseList()) {
             course.setDelFlag(1);
         }
         trainerRepository.save(trainer);

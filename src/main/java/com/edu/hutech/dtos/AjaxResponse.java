@@ -1,5 +1,8 @@
 package com.edu.hutech.dtos;
 
+/**
+ * Ajax Response dto
+ */
 public class AjaxResponse {
     private int status;
     private Object data;

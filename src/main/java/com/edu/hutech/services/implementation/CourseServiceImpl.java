@@ -16,7 +16,6 @@ import com.edu.hutech.services.core.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -32,14 +31,16 @@ public class CourseServiceImpl implements CourseService {
     private EntityManager manager;
 
     @Autowired
-    TrainingObjectiveRepository trainingObjectiveRepository;
+    private TraineeCourseService traineeCourseService;
 
     @Autowired
-    TraineeCourseService traineeCourseService;
+    private UserServiceImpl userService;
 
-    @Autowired
-    UserServiceImpl userService;
-
+    /**
+     * save course
+     *
+     * @param t
+     */
     @Override
     public void save(Course t) {
         DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -70,10 +71,15 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void delete(Integer id) {
-        // TODO Auto-generated method stub
 
     }
 
+    /**
+     * find by Id
+     *
+     * @param id
+     * @return
+     */
     @Override
     public Course findById(Integer id) {
         Course course = courseRepository.getOne(id);
@@ -89,10 +95,17 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> getAll() {
-        // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * search by dto
+     *
+     * @param dto
+     * @param trainerId
+     * @param traineeId
+     * @return
+     */
     @Override
     public Page<CourseDto> searchByDto(CourseSearchDto dto, Integer trainerId, Integer traineeId) {
         if (dto == null) {
@@ -144,26 +157,30 @@ public class CourseServiceImpl implements CourseService {
         if (traineeId != null) {
             Iterator<CourseDto> it = entities.iterator();
             User user = userService.findById(traineeId);
-            while (it.hasNext()){
+            while (it.hasNext()) {
                 CourseDto courseDto = it.next();
-                if(courseDto != null){
+                if (courseDto != null) {
                     TraineeCourse traineeCourse = traineeCourseService.getByTCourseIdAndTraineeId(courseDto.getId(), user.getTrainee().getId());
-                    if (traineeCourse == null ) {
+                    if (traineeCourse == null) {
                         it.remove();
                     }
-                }else {
+                } else {
                     break;
                 }
             }
         }
 
         long count = (long) qCount.getSingleResult();
-
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
-
         return new PageImpl<>(entities, pageable, count);
     }
 
+    /**
+     * find by subject by courseid and trainee id
+     * @param courseId
+     * @param traineeId
+     * @return
+     */
     public List<TraineeSubject> findSubjectByCourseIdAndTraineeId(Integer courseId, Integer traineeId) {
         String sql = "select * from trainee_subject ts where ts.course_id = " + courseId + " and ts.trainee_id = " + traineeId;
         Query query = manager.createNativeQuery(sql, TraineeSubject.class);

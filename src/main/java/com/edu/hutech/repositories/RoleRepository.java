@@ -12,9 +12,10 @@ import java.util.List;
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     /**
-     * find the the roll whcich name
-     * @param name is the name of roll need to find
-     * @return Role object of null
+     * find by name
+     * 
+     * @param name
+     * @return
      */
     @Query(value = "select * from role where name = ?1", nativeQuery = true)
     List<Role> findByName(String name);

@@ -1,5 +1,8 @@
 package com.edu.hutech.dtos;
 
+import lombok.Data;
+
+@Data
 public class TraineeDto {
 
     public int id;

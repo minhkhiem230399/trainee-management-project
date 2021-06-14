@@ -1,8 +1,12 @@
 package com.edu.hutech.models;
 
+import lombok.Data;
+
+@Data
 public class UploadEvent {
 
     private String eventType = "progress";
+
     private Object state;
 
     public UploadEvent() {}
@@ -12,19 +16,4 @@ public class UploadEvent {
         this.state = state;
     }
 
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
-    }
-
-    public String getEventType() {
-        return eventType;
-    }
-
-    public void setState(Object state) {
-        this.state = state;
-    }
-
-    public Object getState() {
-        return state;
-    }
 }

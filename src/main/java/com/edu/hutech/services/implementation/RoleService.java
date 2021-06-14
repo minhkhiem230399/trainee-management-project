@@ -13,7 +13,7 @@ import java.util.List;
 public class RoleService {
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     public List<Role> findByName(String name){
         return roleRepository.findByName(name);

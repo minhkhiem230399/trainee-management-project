@@ -1,28 +1,14 @@
 package com.edu.hutech.dtos;
 
+import lombok.Data;
+
+@Data
 public class TOScoreDto {
     private String name;
 
     private double score;
 
-    public TOScoreDto(String name, double score) {
-        this.name = name;
-        this.score = score;
-    }
-
-    public TOScoreDto() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public double getScore() {
-
         double scale = Math.pow(10, 1);
         return Math.round(score * scale) / scale;
     }
@@ -30,6 +16,5 @@ public class TOScoreDto {
     public void setScore(double score) {
         this.score = score;
     }
-
 
 }

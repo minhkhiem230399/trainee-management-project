@@ -21,13 +21,13 @@ import java.util.Set;
 public class TraineeServiceImpl implements TraineeService {
 
     @Autowired
-    TraineeRepository traineeRepository;
+    private TraineeRepository traineeRepository;
 
     @Autowired
-    TraineeCourseRepository traineeCourseRepository;
+    private TraineeCourseRepository traineeCourseRepository;
 
     @Autowired
-    CourseRepository courseRepository;
+    private CourseRepository courseRepository;
 
     @Override
     public void save(Trainee trainee) {
