@@ -1,6 +1,5 @@
 package com.edu.hutech.entities;
 
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -24,9 +23,6 @@ public class User extends BaseEntity implements UserDetails, Serializable {
 
     @Column(name = "account")
     private String account;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Attendance> attendanceList = new ArrayList<>();
 
     @Column(nullable = true, length = 64)
     private String photos;
@@ -83,14 +79,6 @@ public class User extends BaseEntity implements UserDetails, Serializable {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
-    }
-
-    public List<Attendance> getAttendanceList() {
-        return attendanceList;
-    }
-
-    public void setAttendanceList(List<Attendance> attendanceList) {
-        this.attendanceList = attendanceList;
     }
 
     public String getPhotos() {

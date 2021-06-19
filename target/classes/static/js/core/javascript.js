@@ -161,22 +161,22 @@ var Modal = {
                     $("#progress-final").attr('style', 'width:' + jsonResult.data * 10 + '%');
                     $('#final').text(jsonResult.data * 10);
                     location.reload();
-                    if(parseInt(jsonResult.data) > 9 ){
+                    if (parseInt(jsonResult.data) > 9) {
                         $('.score-final').text("A+")
                     }
-                    if(parseInt(jsonResult.data) >= 8 &&parseInt(jsonResult.data) < 9 ){
+                    if (parseInt(jsonResult.data) >= 8 && parseInt(jsonResult.data) < 9) {
                         $('.score-final').text("A")
                     }
-                    if(parseInt(jsonResult.data) >= 7 &&parseInt(jsonResult.data) < 8 ){
+                    if (parseInt(jsonResult.data) >= 7 && parseInt(jsonResult.data) < 8) {
                         $('.score-final').text("B")
                     }
-                    if(parseInt(jsonResult.data) >= 6 &&parseInt(jsonResult.data) < 7 ){
+                    if (parseInt(jsonResult.data) >= 6 && parseInt(jsonResult.data) < 7) {
                         $('.score-final').text("C")
                     }
-                    if(parseInt(jsonResult.data) >= 5 &&parseInt(jsonResult.data) < 6){
+                    if (parseInt(jsonResult.data) >= 5 && parseInt(jsonResult.data) < 6) {
                         $('.score-final').text("D")
                     }
-                    if(parseInt(jsonResult.data) >= 0 &&parseInt(jsonResult.data) < 5){
+                    if (parseInt(jsonResult.data) >= 0 && parseInt(jsonResult.data) < 5) {
                         $('.score-final').text("F")
                     }
                     $('.modal').modal('hide');
@@ -211,8 +211,8 @@ var Modal = {
                 dataType: "json", // dữ liệu từ web-service trả về là json.
                 success: function (jsonResult) { // được gọi khi web-service trả về dữ liệu.
                     if (jsonResult.status === 200) {
-                        $('#aa'+el.attr('data-id')).attr('style', 'width:' + data.score * 10 + '%');
-                        $('.a'+el.attr('data-id')).text(data.score);
+                        $('#aa' + el.attr('data-id')).attr('style', 'width:' + data.score * 10 + '%');
+                        $('.a' + el.attr('data-id')).text(data.score);
                         $('.modal').modal('hide');
                         showNotification('top', 'right', 'Updated score review!')
                         console.log(data);
@@ -302,5 +302,30 @@ var Modal = {
             }
         });
     },
+
+    attendance: function (element) {
+        element.attr("disabled", true);
+        var data = {};
+        data["courseId"] = element.attr('data-course');
+        data["traineeId"] = element.attr('data-id');
+
+        $.ajax({
+            url: "/class-management/attendance",
+            type: "post",
+            contentType: "application/json", // dữ liệu gửi lên web-service có dạng là json.
+            data: JSON.stringify(data), // object json -> string json
+
+            dataType: "json", // dữ liệu từ web-service trả về là json.
+            success: function (jsonResult) { // được gọi khi web-service trả về dữ liệu.
+                if (jsonResult.status === 200) {
+                    console.log(jsonResult.data);
+                    showNotification('top', 'right', 'Attendance Success!')
+                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback
+
+            }
+        });
+    }
 
 }

@@ -1,7 +1,6 @@
 package com.edu.hutech.services.implementation;
 
 import com.edu.hutech.entities.TraineeCourse;
-import com.edu.hutech.entities.TrainingObjective;
 import com.edu.hutech.repositories.TraineeCourseRepository;
 import com.edu.hutech.repositories.TrainingObjectiveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,32 +12,36 @@ import java.util.List;
 public class TraineeCourseService {
 
     @Autowired
-    TraineeCourseRepository traineeCourseRepository;
+    private TraineeCourseRepository traineeCourseRepository;
 
     @Autowired
-    TrainingObjectiveRepository trainingObjectiveRepository;
+    private TrainingObjectiveRepository trainingObjectiveRepository;
 
-    public Double getScoreByTraineeId(Integer courseId, Integer traineeId){
+    public Double getScoreByTraineeId(Integer courseId, Integer traineeId) {
         TraineeCourse traineeCourse = traineeCourseRepository.getTraineeCourseByCourseIdAndTraineeId(courseId, traineeId);
 
-        if(traineeCourse != null){
+        if (traineeCourse != null) {
             return traineeCourse.getScore();
         }
         return (double) 0;
     }
 
-    public boolean checkExistTrainee(Integer courseId, Integer traineeId){
+    public boolean checkExistTrainee(Integer courseId, Integer traineeId) {
         return traineeCourseRepository.getTraineeCourseByCourseIdAndTraineeId(courseId, traineeId) != null;
     }
 
-    public List<TraineeCourse> getTraineeCourseByCourseId(Integer id){
+    public List<TraineeCourse> getTraineeCourseByCourseId(Integer id) {
         List<TraineeCourse> traineeCourse = traineeCourseRepository.findByCourseId(id);
         traineeCourse.removeIf(traineeCourse1 -> traineeCourse1.getDelFlag() == 1);
         return traineeCourse;
     }
 
-    public TraineeCourse getByTCourseIdAndTraineeId(Integer courseId, Integer traineeId){
+    public TraineeCourse getByTCourseIdAndTraineeId(Integer courseId, Integer traineeId) {
         return traineeCourseRepository.getTraineeCourseByCourseIdAndTraineeId(courseId, traineeId);
+    }
+
+    public TraineeCourse findById(Integer id) {
+        return traineeCourseRepository.getOne(id);
     }
 
 }

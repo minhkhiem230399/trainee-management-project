@@ -5,13 +5,16 @@ import com.edu.hutech.entities.Trainee;
 import com.edu.hutech.entities.TraineeCourse;
 import com.edu.hutech.repositories.CourseRepository;
 import com.edu.hutech.repositories.TraineeRepository;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -37,8 +40,8 @@ public class HomeController {
      * @return
      */
     @GetMapping()
-    public String viewHomePage(Model model, @RequestParam("start-date") Optional<String> startDate,
-                               @RequestParam("end-date") Optional<String> endDate) {
+    public String viewHomePage(Model model, @RequestParam(name = "start-date", required = false) String startDate,
+                               @RequestParam(name = "end-date", required = false) String endDate) {
 
         int waitingCourse = 0;
         int releaseCourse = 0;
@@ -46,88 +49,92 @@ public class HomeController {
         int waitingTrainee = 0;
         int releaseTrainee = 0;
         int runningTrainee = 0;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        List<Course> listCourse = new ArrayList<>();
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+
+        List<Course> listCourse;
         List<Trainee> listTrainee = traineeRepository.findAll();
         listTrainee.removeIf(trainee -> trainee.getDelFlag() == 1);
 
+
         Set<Integer> listId = new HashSet<>();
 
-        Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String defaultEndDate = "yyyy-MM-dd";
-        String defaultStartDate = "yyyy-MM-dd";
-
-        String start = startDate.orElse(defaultStartDate);
-        String end = endDate.orElse(defaultEndDate);
-
-        if (start.equals(defaultStartDate) && end.equals(defaultEndDate)) {
+        if (startDate == null && endDate == null) {
             listCourse = courseRepository.findAll();
             listCourse.removeIf(course -> course.getDelFlag() == 1);
             for (Course c : listCourse) {
-                for (TraineeCourse traineeCourse : c.getTraineeCourses()){
+                for (TraineeCourse traineeCourse : c.getTraineeCourses()) {
                     listId.add(traineeCourse.getTrainee().getId());
                 }
-                if (c.getStatusProgress().equals("FINISHED") && c.getDelFlag() == 0){
+                if (c.getStatusProgress().equals("FINISHED") && c.getDelFlag() == 0) {
                     releaseCourse++;
                 }
-                if (c.getStatusProgress().equals("WAITING") && c.getDelFlag() == 0){
+                if (c.getStatusProgress().equals("WAITING") && c.getDelFlag() == 0) {
                     waitingCourse++;
                 }
-                if(c.getStatusProgress().equals("RUNNING") && c.getDelFlag() == 0){
+                if (c.getStatusProgress().equals("RUNNING") && c.getDelFlag() == 0) {
                     runningCourse++;
                 }
             }
+            model.addAttribute("totalTrainee", listTrainee.size());
+            model.addAttribute("rTrainee", listTrainee.size() - listId.size());
         } else {
+            assert startDate != null;
+            LocalDate startDt = LocalDate.parse(startDate, formatter1);
+            assert false;
+            LocalDate endDt = LocalDate.parse(endDate, formatter1);
+            listCourse = courseRepository.findAll();
+            listCourse.removeIf(course -> course.getDelFlag() == 1);
 
-            Date dateStart = new Date();
-            Date dateEnd = new Date();
-            try {
-                dateStart = simpleDateFormat.parse(start);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            try {
-                dateEnd = simpleDateFormat.parse(end);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            if (CollectionUtils.isNotEmpty(listCourse)) {
 
-//            listCourse = courseRepository.findAllByOpenDateGreaterThanEqualAndEndDateLessThanEqual(dateStart, dateEnd);
-//
-//            for (Course c : listCourse) {
-//                if (c.getStatus().equals("Done"))
-//                    releaseCourse++;
-//                else if (c.getStatus().equals("Waiting"))
-//                    waitingCourse++;
-//                else
-//                    runningCourse++;
-//            }
-//            for (Course c : listCourse) {
-//                listTrainee.addAll(c.getTrainee());
-//            }
-//
-//            for (Trainee f : listTrainee) {
-//                if (dateEnd.compareTo(f.getTraineeStatus().getStartDay()) < 0)
-//                    waitingTrainee++;
-//                else if (dateEnd.compareTo(f.getTraineeStatus().getEndDate()) > 0)
-//                    releaseTrainee++;
-//                else
-//                    runningTrainee++;
-//            }
+                Iterator<Course> it = listCourse.iterator();
+                while (it.hasNext()) {
+                    Course course = it.next();
+                    if (course != null) {
+                        LocalDate start = LocalDate.parse(course.getOpenDate(), formatter2);
+                        LocalDate end = LocalDate.parse(course.getEndDate(), formatter2);
+                        if (start.isBefore(startDt) || end.isAfter(endDt)) {
+                            it.remove();
+                        }
+                    } else {
+                        break;
+                    }
+                }
+
+                for (Course c : listCourse) {
+                    for (TraineeCourse traineeCourse : c.getTraineeCourses()) {
+                        listId.add(traineeCourse.getTrainee().getId());
+                        listTrainee.add(traineeCourse.getTrainee());
+
+                    }
+                    if (c.getStatusProgress().equals("FINISHED") && c.getDelFlag() == 0) {
+                        releaseCourse++;
+                    }
+                    if (c.getStatusProgress().equals("WAITING") && c.getDelFlag() == 0) {
+                        waitingCourse++;
+                    }
+                    if (c.getStatusProgress().equals("RUNNING") && c.getDelFlag() == 0) {
+                        runningCourse++;
+                    }
+                }
+                listTrainee.removeIf(trainee -> trainee.getDelFlag() == 1);
+                model.addAttribute("totalTrainee", listId.size());
+                model.addAttribute("rTrainee", 0);
+            }
         }
 
         model.addAttribute("totalCourse", listCourse.size());
-        model.addAttribute("totalTrainee", listTrainee.size());
+
         model.addAttribute("wCourse", waitingCourse);
         model.addAttribute("releCourse", releaseCourse);
         model.addAttribute("runCourse", runningCourse);
         model.addAttribute("wTrainee", listId.size());
-        model.addAttribute("rTrainee", listTrainee.size() - listId.size());
-        model.addAttribute("rnTrainee", runningTrainee);
-        model.addAttribute("startDate", start);
-        model.addAttribute("endDate", end);
+
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
         return "pages/index";
     }
 

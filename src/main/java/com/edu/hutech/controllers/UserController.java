@@ -15,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,7 +32,12 @@ public class UserController {
     private UserServiceImpl userService;
 
     @GetMapping("/login")
-    public String getLogin() {
+    public String getLogin(@RequestParam(name = "error", required = false) String error, final ModelMap model) {
+        if(error != null){
+            model.addAttribute("error", "<div class=\"alert alert-danger\" role=\"alert\">\n" +
+                    "  This is a danger alert—check it out!\n" +
+                    "</div>");
+        }
         return "pages/user-views/login";
     }
 

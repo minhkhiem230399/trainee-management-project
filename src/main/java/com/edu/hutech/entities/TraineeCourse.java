@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -25,6 +27,12 @@ public class TraineeCourse extends BaseEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER )
     @JoinColumn(name = "course_id")
     private Course course;
+
+    @OneToMany(mappedBy = "traineeCourse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Attendance> attendanceList = new ArrayList<>();
+
+    @Column(name = "attendanced")
+    private Integer attendanced = 0;
 
 
 }

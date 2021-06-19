@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        return dem > 1;
+        return dem > 0;
     }
 
 }

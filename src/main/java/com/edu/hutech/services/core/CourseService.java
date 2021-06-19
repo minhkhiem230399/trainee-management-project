@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public interface CourseService extends IService<Course> {
-    Page<CourseDto> searchByDto(CourseSearchDto dto, Integer idTrainer, Integer idTrainee);
+    List<CourseDto> searchByDto(CourseSearchDto dto, Integer idTrainer, Integer idTrainee);
 
 
 }

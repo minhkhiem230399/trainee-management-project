@@ -3,28 +3,30 @@ package com.edu.hutech.entities;
 import com.edu.hutech.utils.data.TypeAttendance;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "attendance")
-public class Attendance extends BaseEntity {
+public class Attendance extends BaseEntity implements Serializable {
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_person", nullable = false, referencedColumnName = "id")
-    private User user;
+    private static final long serialVersionUID = 1L;
 
-    @Column(name = "type_attendance")
-    private TypeAttendance typeAttendance;
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "id_person", nullable = true, referencedColumnName = "id")
+    private TraineeCourse traineeCourse;
+
+    @Column(name = "status_attendance")
+    private Integer statusAttendance = 0;
 
     @Column(name = "date")
-    private Date date;
-
-    @Column(name = "note")
-    private String note;
-
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate date;
 }

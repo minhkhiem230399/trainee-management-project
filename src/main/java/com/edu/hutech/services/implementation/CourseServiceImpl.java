@@ -1,25 +1,24 @@
 package com.edu.hutech.services.implementation;
 
+import com.edu.hutech.dtos.CourseDto;
+import com.edu.hutech.entities.*;
+import com.edu.hutech.functiondto.CourseSearchDto;
+import com.edu.hutech.repositories.AttendanceRepository;
+import com.edu.hutech.repositories.CourseRepository;
+import com.edu.hutech.repositories.TraineeCourseRepository;
+import com.edu.hutech.services.core.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import com.edu.hutech.dtos.CourseDto;
-import com.edu.hutech.entities.*;
-import com.edu.hutech.functiondto.CourseSearchDto;
-import com.edu.hutech.repositories.CourseRepository;
-import com.edu.hutech.repositories.TrainingObjectiveRepository;
-import com.edu.hutech.services.core.CourseService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -28,13 +27,19 @@ public class CourseServiceImpl implements CourseService {
     private CourseRepository courseRepository;
 
     @Autowired
-    private EntityManager manager;
+    private EntityManager entityManageManager;
 
     @Autowired
     private TraineeCourseService traineeCourseService;
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private AttendanceRepository attendanceRepository;
+
+    @Autowired
+    private TraineeCourseRepository traineeCourseRepository;
 
     /**
      * save course
@@ -107,7 +112,7 @@ public class CourseServiceImpl implements CourseService {
      * @return
      */
     @Override
-    public Page<CourseDto> searchByDto(CourseSearchDto dto, Integer trainerId, Integer traineeId) {
+    public List<CourseDto> searchByDto(CourseSearchDto dto, Integer trainerId, Integer traineeId) {
         if (dto == null) {
             return null;
         }
@@ -133,24 +138,23 @@ public class CourseServiceImpl implements CourseService {
 
         sql += whereClause + orderBy;
         sqlCount += whereClause;
-        Query q = manager.createQuery(sql, CourseDto.class);
-        Query qCount = manager.createQuery(sqlCount);
+        Query q = entityManageManager.createQuery(sql, CourseDto.class);
+        Query qCount = entityManageManager.createQuery(sqlCount);
 
         if (dto.getText() != null && StringUtils.hasText(dto.getText())) {
             q.setParameter("text", '%' + dto.getText().trim() + '%');
             qCount.setParameter("text", '%' + dto.getText().trim() + '%');
         }
 
-        int startPosition = pageIndex * pageSize;
-        q.setFirstResult(startPosition);
-        q.setMaxResults(pageSize);
+
         List<CourseDto> entities = q.getResultList();
-        Integer x = 0;
+
 
         if (entities.size() > 0) {
             if (trainerId != null) {
                 User user = userService.findById(trainerId);
-                entities.removeIf(courseDto -> !courseDto.getTrainerId().equals(user.getTrainer().getId()));
+                Integer x = user.getTrainer().getId();
+                entities.removeIf(courseDto -> courseDto.getTrainerId() != x);
             }
         }
 
@@ -170,21 +174,51 @@ public class CourseServiceImpl implements CourseService {
             }
         }
 
-        long count = (long) qCount.getSingleResult();
-        Pageable pageable = PageRequest.of(pageIndex, pageSize);
-        return new PageImpl<>(entities, pageable, count);
+        return entities;
     }
 
     /**
      * find by subject by courseid and trainee id
+     *
      * @param courseId
      * @param traineeId
      * @return
      */
     public List<TraineeSubject> findSubjectByCourseIdAndTraineeId(Integer courseId, Integer traineeId) {
         String sql = "select * from trainee_subject ts where ts.course_id = " + courseId + " and ts.trainee_id = " + traineeId;
-        Query query = manager.createNativeQuery(sql, TraineeSubject.class);
+        Query query = entityManageManager.createNativeQuery(sql, TraineeSubject.class);
         return query.getResultList();
+    }
+
+    /**
+     * @param courseId
+     * @param traineeId
+     */
+    public void setAttendance(Integer courseId, Integer traineeId) {
+        TraineeCourse traineeCourse = traineeCourseService.getByTCourseIdAndTraineeId(courseId, traineeId);
+        traineeCourse.setAttendanced(1);
+        traineeCourseRepository.save(traineeCourse);
+        Attendance attendance = new Attendance();
+        attendance.setTraineeCourse(traineeCourse);
+        attendance.setDate(LocalDate.now());
+        attendance.setStatusAttendance(1);
+        attendanceRepository.save(attendance);
+    }
+
+    /**
+     * @param id
+     */
+    public void checkAttendance(Integer id) {
+        TraineeCourse traineeCourse = traineeCourseService.findById(id);
+        if (!CollectionUtils.isEmpty(traineeCourse.getAttendanceList())) {
+            for (Attendance attendance : traineeCourse.getAttendanceList()) {
+                if (attendance.getDate().compareTo(LocalDate.now()) != 0) {
+                    traineeCourse.setAttendanced(0);
+                }
+            }
+        } else {
+            traineeCourse.setAttendanced(0);
+        }
     }
 
 }

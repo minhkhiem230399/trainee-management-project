@@ -66,15 +66,16 @@ public class ClassController {
      */
     @GetMapping()
     public String displayCourseList(Model model, @RequestParam("page") Optional<Integer> page, HttpServletRequest request,
+                                    @RequestParam("view") Optional<String> view,
                                     @RequestParam(value = "size") Optional<Integer> size, @RequestParam("field") Optional<String> field,
                                     @RequestParam(value = "search") Optional<String> search, HttpServletResponse response) {
 
         int cPage = page.orElse(1);
         int pageSize = size.orElse(5);
         String sortField = field.orElse("default");
+        String modeView = view.orElse("list");
         String searchX = search.orElse(null);
 
-        Page<CourseDto> classPage;
         CourseSearchDto x = new CourseSearchDto();
         x.setPageIndex(cPage);
         x.setPageSize(pageSize);
@@ -91,15 +92,20 @@ public class ClassController {
                 traineeId = (Integer) session.getAttribute("userId");
             }
         }
+        List<CourseDto> list = courseService.searchByDto(x, trainerId, traineeId);
 
-        classPage = courseService.searchByDto(x, trainerId, traineeId);
+        List<CourseDto> classPage = Pagination.getPage(list , cPage, pageSize);
+        int totalPages = (int) Math.ceil((double) list.size() / (double) pageSize);
 
+        model.addAttribute("modeView", modeView);
         model.addAttribute("classPage", classPage);
+        model.addAttribute("totalElements", list.size());
         model.addAttribute("cPage", cPage);
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("size", pageSize);
         model.addAttribute("field", sortField);
 
-        PaginationRange p = Pagination.paginationByRange(cPage, classPage.getTotalElements(), pageSize, 5);
+        PaginationRange p = Pagination.paginationByRange(cPage, list.size(), pageSize, 5);
         model.addAttribute("paginationRange", p);
 
         return "pages/class-views/class-management";
@@ -206,6 +212,7 @@ public class ClassController {
         traineeCourseList = traineeCourseService.getTraineeCourseByCourseId(id);
         List<Trainee> traineeList = new ArrayList<>();
         for (TraineeCourse traineeCourse : traineeCourseList) {
+            courseService.checkAttendance(traineeCourse.getId());
             traineeList.add(traineeCourse.getTrainee());
             if (traineeCourse.getScore() >= 5) {
                 pass++;
@@ -315,10 +322,10 @@ public class ClassController {
         } else {
             model.addAttribute("finalScore", (int) (Math.round(finalScore * scale) / scale) * 10);
         }
-//        model.addAttribute("presentAttendance", presentAttendance);
-//        model.addAttribute("totalAttendance", totalAttendance);
+        model.addAttribute("presentAttendance", traineeCourse.getAttendanceList().size());
+        model.addAttribute("totalAttendance", 30);
         model.addAttribute("listNameAndScore", courseService.findSubjectByCourseIdAndTraineeId(traineeCourse.getCourse().getId(), traineeId));
-//        model.addAttribute("listDateAndAttendance", listDateAndAttendance);
+        model.addAttribute("listDateAndAttendance", traineeCourse.getAttendanceList());
 
         return "pages/class-views/class-trainee-details";
     }
@@ -384,6 +391,22 @@ public class ClassController {
         Optional<TraineeSubject> traineeSubject = traineeSubjectRepository.findById(id);
         traineeSubject.orElseThrow().setScoreReview(score);
         traineeSubjectRepository.save(traineeSubject.orElseThrow());
+        return ResponseEntity.ok(new AjaxResponse(200, data));
+    }
+
+    /**
+     *
+     * @param data
+     * @return
+     */
+    @PostMapping("/attendance")
+    public ResponseEntity<AjaxResponse> attendance(@RequestBody String data) {
+        JSONObject json = new JSONObject(data);
+
+        Integer courseId = json.getInt("courseId");
+        Integer traineeId = json.getInt("traineeId");
+
+        courseService.setAttendance(courseId, traineeId);
         return ResponseEntity.ok(new AjaxResponse(200, data));
     }
 
