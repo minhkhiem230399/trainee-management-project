@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-4 p-0">
                     <div class="text-center p-2">
-                        <img src="/img/avt.jpg" alt="" width="200" class="rounded-circle img-fluid mt-4">
+                        <img th:src="@{${'getimage/' + userss.photo}}" alt="" width="170" class="rounded-circle img-fluid mt-4">
                     </div>
                     <div class="text-center" th:utext="${email}"></div>
                     <hr>
@@ -91,6 +91,7 @@
                                                         <input placeholder="Enter confirm password..." id="password-re"
                                                                type="password" class="form-control col-8" required>
                                                     </div>
+
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary"
@@ -104,7 +105,7 @@
                                     </div>
                                 </li>
                                 <li><a class="btn btn-primary margin-button"
-                                       href="/my-account/photo"
+                                       th:href="@{/trainer-management/avatar-trainer(id=${userss.id})}"
                                        role="button">Change Photo</a>
                                 </li>
                             </ul>
@@ -168,7 +169,7 @@
                                     </div>
                                 </li>
                                 <li><a class="btn btn-primary margin-button"
-                                       href="/my-account/photo"
+                                       th:href="@{/trainee-management/avatar-trainee(id=${userss.id})}"
                                        role="button">Change Photo</a>
                                 </li>
                             </ul>

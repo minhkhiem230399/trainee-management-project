@@ -17,9 +17,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -32,20 +38,22 @@ import java.util.Optional;
 @RequestMapping("/trainer-management")
 public class TrainerController {
 
+
     @Autowired
     TrainerServiceImpl trainerService;
 
     @Autowired
-    TrainerRepository trainerRepository;
+    private TrainerRepository trainerRepository;
 
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
     @Autowired
-    RoleService roleService;
+    private RoleService roleService;
 
     /**
      * Get list trainer display
+     *
      * @param model
      * @param page
      * @param request
@@ -163,6 +171,8 @@ public class TrainerController {
         return "redirect:/trainer-management/add-trainer";
     }
 
+    public static String uploadDirection = System.getProperty("user.dir") + "/upload";
+
     /**
      * Update account trainer
      *
@@ -211,6 +221,55 @@ public class TrainerController {
     public ResponseEntity<AjaxResponse> delete(@RequestBody Integer id) {
         trainerService.delete(id);
         return ResponseEntity.ok(new AjaxResponse(200, "OK"));
+    }
+
+    /**
+     * @param id
+     * @param model
+     * @param request
+     * @return
+     */
+    @GetMapping("/avatar-trainer")
+    public String editAvatar(@RequestParam Integer id, final ModelMap model, final HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        if (session.getAttribute("role") != null) {
+            if (session.getAttribute("role").equals("ROLE_TRAINER")) {
+                model.addAttribute("role", 1);
+            }
+        }
+
+        model.addAttribute("trainer", trainerService.findById(id));
+        return "pages/trainer-views/trainer-avatar";
+    }
+
+    /**
+     * @param id
+     * @param photo
+     * @param model
+     * @return
+     * @throws IllegalStateException
+     * @throws IOException
+     * @throws EntityNotFoundException
+     */
+    @PostMapping("/avatar-trainer")
+    public String editedAvatar(@RequestParam Integer id, @RequestParam("photo") MultipartFile photo, final ModelMap model)
+            throws IllegalStateException, IOException, EntityNotFoundException {
+        StringBuilder filename = new StringBuilder();
+        Trainer getData = trainerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Error"));
+        Path filenameAndPath = Paths.get(uploadDirection, photo.getOriginalFilename());
+        System.out.println(photo.getOriginalFilename());
+        filename.append(photo.getOriginalFilename());
+        try {
+            Files.write(filenameAndPath, photo.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        getData.setPhoto(filename.toString());
+
+        trainerService.update(getData);
+        model.addAttribute("msg", "Successfully" + filename.toString());
+        return "redirect:/my-account";
     }
 
 }

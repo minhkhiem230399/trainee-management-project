@@ -85,8 +85,6 @@
                     <input name="view" id="view" th:value="${modeView}" hidden>
                     <input type="submit" hidden="" style="display: none;">
                 </div>
-
-
             </div>
         </form>
 
@@ -96,13 +94,11 @@
                     <div class="card profile d-flex flex-row">
                         <div class="col-md-4 text-center">
                             <figure>
-                                <img src="/img/avt.jpg" alt="" class="rounded-circle img-fluid mt-4">
+                                <img th:src="@{${'getimage/' + trainee.photo}}" alt=""
+                                     class="rounded-circle img-fluid mt-4">
                                 <figcaption class="ratings">
                                     <p>
-                                        <!--                                        <a class="text-warning"-->
-                                        <!--                                           th:each="i : ${#numbers.sequence( 1,trainee.score + 1, 2)}">-->
-                                        <!--                                            <span class="fa fa-star"></span>-->
-                                        <!--                                        </a>-->
+
                                     </p>
                                 </figcaption>
                             </figure>

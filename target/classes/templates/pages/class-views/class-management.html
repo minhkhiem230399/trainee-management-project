@@ -119,7 +119,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="class : ${classPage.content}">
+                            <tr th:each="class : ${classPage}">
                                 <td th:text="${class.name}"
                                     th:onclick="'javascript:rowClicked(\'' + ${class.id} + '\');'">1
                                 </td>
@@ -185,7 +185,7 @@
 
 
         <div class="row">
-            <div class="col-md-12 mt-3" th:if="${classPage.totalElements > size}">
+            <div class="col-md-12 mt-3" th:if="${totalElements > size}">
                 <!-- directors pagination -->
                 <nav aria-label="Pagination">
                     <ul class="pagination justify-content-center font-weight-bold">
@@ -207,23 +207,23 @@
                             th:each="i : ${#numbers.sequence( paginationRange.min, paginationRange.max)}"
                             th:classappend="${i eq paginationRange.currentPage} ? 'active'">
                             <a class="page-link"
-                               th:href="@{/class-management(size=${size},page=${i},field = ${field})}"
-                               th:text="${i}"
+                               th:href="@{/class-management(size=${size},page=${i },field = ${field})}"
+                               th:text="${i }"
                                th:title="${'Page '+ i}" data-toggle="tooltip">
                             </a>
                         </li>
                         <li class="page-item"
-                            th:classappend="${paginationRange.currentPage ge classPage.totalPages } ? 'disabled'">
+                            th:classappend="${paginationRange.currentPage ge totalPages } ? 'disabled'">
                             <a class="page-link"
-                               th:href="@{/class-management(size=${classPage.size},page=${cPage + 1},field = ${field})}"
+                               th:href="@{/class-management(size=${size},page=${cPage + 1},field = ${field})}"
                                aria-label="Next" title="Next Page" data-toggle="tooltip">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
                         <li class="page-item"
-                            th:classappend="${paginationRange.currentPage ge classPage.totalPages } ? 'disabled'">
+                            th:classappend="${paginationRange.currentPage ge totalPages } ? 'disabled'">
                             <a class="page-link"
-                               th:href="@{/class-management(size=${classPage.size},page=${classPage.totalPages},field = ${field})}"
+                               th:href="@{/class-management(size=${size},page=${totalPages},field = ${field})}"
                                aria-label="Next" title="Last Page" data-toggle="tooltip">
                                 <span aria-hidden="true">Last</span>
                             </a>

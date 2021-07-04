@@ -68,12 +68,12 @@
                                 - ASC</a>
                         </div>
                     </div>
-<!--                    <div class="col-md-1 d-flex ml-3 justify-content-end" sec:authorize="isAuthenticated()">-->
-<!--                        <a type="button" class="btn btn-primary"-->
-<!--                           th:href="@{/trainee-management/export(size=${size},page=${i},field = ${field})}">-->
-<!--                            <i class="fa fa-download" aria-hidden="true"></i>-->
-<!--                        </a>-->
-<!--                    </div>-->
+                    <!--                    <div class="col-md-1 d-flex ml-3 justify-content-end" sec:authorize="isAuthenticated()">-->
+                    <!--                        <a type="button" class="btn btn-primary"-->
+                    <!--                           th:href="@{/trainee-management/export(size=${size},page=${i},field = ${field})}">-->
+                    <!--                            <i class="fa fa-download" aria-hidden="true"></i>-->
+                    <!--                        </a>-->
+                    <!--                    </div>-->
                 </div>
                 <div class="input-group col-md-2">
                     <div class="input-group-prepend align-self-center">
@@ -85,8 +85,6 @@
                     <input name="view" id="view" th:value="${modeView}" hidden>
                     <input type="submit" hidden="" style="display: none;">
                 </div>
-
-
             </div>
         </form>
 
@@ -96,13 +94,11 @@
                     <div class="card profile d-flex flex-row">
                         <div class="col-md-4 text-center">
                             <figure>
-                                <img src="/img/avt.jpg" alt="" class="rounded-circle img-fluid mt-4">
+                                <img th:src="@{${'getimage/' + trainee.photo}}" alt=""
+                                     class="rounded-circle img-fluid mt-4">
                                 <figcaption class="ratings">
                                     <p>
-<!--                                        <a class="text-warning"-->
-<!--                                           th:each="i : ${#numbers.sequence( 1,trainee.score + 1, 2)}">-->
-<!--                                            <span class="fa fa-star"></span>-->
-<!--                                        </a>-->
+
                                     </p>
                                 </figcaption>
                             </figure>
@@ -110,10 +106,13 @@
                         <div class="col-md-8">
                             <h4 class="text-primary d-flex justify-content-start"><span
                                     class="fa fa-user mr-2 pt-2 text-dark"></span>
-<!--                                <a sec:authorize="hasRole('ROLE_ADMIN')" class="pt-1">[[${trainee.name}]]</a>-->
-                                <a sec:authorize="hasRole('ROLE_ADMIN')" class="pt-1" th:href="@{/trainee-management/trainee-details(id= ${trainee.id})}">[[${trainee.name}]]</a>
+                                <!--                                <a sec:authorize="hasRole('ROLE_ADMIN')" class="pt-1">[[${trainee.name}]]</a>-->
+                                <a sec:authorize="hasRole('ROLE_ADMIN')" class="pt-1"
+                                   th:href="@{/trainee-management/trainee-details(id= ${trainee.id})}">[[${trainee.name}]]</a>
                                 <a sec:authorize="hasRole('ROLE_TRAINEE')" class="pt-1">[[${trainee.name}]]</a>
-                                <button  sec:authorize="hasRole('ROLE_ADMIN')" type="button" onclick="Modal.deleteTrainee($(this))" th:data-id="${trainee.id}" class="btn bg-primary btn-primary text-light ml-auto">
+                                <button sec:authorize="hasRole('ROLE_ADMIN')" type="button"
+                                        onclick="Modal.deleteTrainee($(this))" th:data-id="${trainee.id}"
+                                        class="btn bg-primary btn-primary text-light ml-auto">
                                     Delete
                                 </button>
                                 <input type="hidden" id="message" th:value="${message}">
@@ -148,17 +147,18 @@
                             <div class="col-md-4">
                                 <h4 class="text-primary mt-3 mb-2"><span
                                         class="fa fa-user mr-1 text-dark"></span>
-                                    <a sec:authorize="hasRole('ROLE_ADMIN')" class="pt-1" th:href="@{/trainee-management/trainee-details(id= ${trainee.id})}">[[${trainee.name}]]</a>
+                                    <a sec:authorize="hasRole('ROLE_ADMIN')" class="pt-1"
+                                       th:href="@{/trainee-management/trainee-details(id= ${trainee.id})}">[[${trainee.name}]]</a>
                                     <a sec:authorize="hasRole('ROLE_TRAINEE')" class="pt-1">[[${trainee.name}]]</a>
                                 </h4>
 
                                 <figure class="ml-1">
                                     <figcaption class="ratings">
                                         <p class="pl-4">
-<!--                                            <a class="text-warning"-->
-<!--                                               th:each="i : ${#numbers.sequence( 1,trainee.score + 1, 2)}">-->
-<!--                                                <span class="fa fa-star"></span>-->
-<!--                                            </a>-->
+                                            <!--                                            <a class="text-warning"-->
+                                            <!--                                               th:each="i : ${#numbers.sequence( 1,trainee.score + 1, 2)}">-->
+                                            <!--                                                <span class="fa fa-star"></span>-->
+                                            <!--                                            </a>-->
                                         </p>
                                     </figcaption>
                                 </figure>
@@ -170,35 +170,35 @@
                                     &nbsp;[[${trainee.user.account}]]
                                 </p>
 
-<!--                                <p class="d-flex align-items-center mt-3"-->
-<!--                                   th:if="${trainee.score <= 10 and trainee.score >= 9}"-->
-<!--                                ><span class="fa fa-graduation-cap mr-1"></span><strong>Rank: </strong>-->
-<!--                                    &nbsp;A++-->
-<!--                                </p>-->
-<!--                                <p class="d-flex align-items-center mt-3"-->
-<!--                                   th:if="${trainee.score < 9 and trainee.score >= 8}"-->
-<!--                                ><span class="fa fa-graduation-cap mr-1"></span><strong>Rank: </strong>-->
-<!--                                    &nbsp;A+-->
-<!--                                </p>-->
-<!--                                <p class="d-flex align-items-center mt-3"-->
-<!--                                   th:if="${trainee.score < 8 and trainee.score >= 7}"-->
-<!--                                ><span class="fa fa-graduation-cap mr-1"></span><strong>Rank: </strong>-->
-<!--                                    &nbsp;A-->
-<!--                                </p>-->
-<!--                                <p class="d-flex align-items-center mt-3"-->
-<!--                                   th:if="${trainee.score < 7 and trainee.score >= 6}"-->
-<!--                                ><span class="fa fa-graduation-cap mr-1"></span><strong>Rank: </strong>-->
-<!--                                    &nbsp;B-->
-<!--                                </p>-->
-<!--                                <p class="d-flex align-items-center mt-3"-->
-<!--                                   th:if="${trainee.score < 6 and trainee.score >= 5}"-->
-<!--                                ><span class="fa fa-graduation-cap mr-1"></span><strong>Rank: </strong>-->
-<!--                                    &nbsp;C-->
-<!--                                </p>-->
-<!--                                <p class="d-flex align-items-center mt-3" th:if="${trainee.score < 5}"-->
-<!--                                ><span class="fa fa-graduation-cap mr-1"></span><strong>Rank: </strong>-->
-<!--                                    &nbsp;D-->
-<!--                                </p>-->
+                                <!--                                <p class="d-flex align-items-center mt-3"-->
+                                <!--                                   th:if="${trainee.score <= 10 and trainee.score >= 9}"-->
+                                <!--                                ><span class="fa fa-graduation-cap mr-1"></span><strong>Rank: </strong>-->
+                                <!--                                    &nbsp;A++-->
+                                <!--                                </p>-->
+                                <!--                                <p class="d-flex align-items-center mt-3"-->
+                                <!--                                   th:if="${trainee.score < 9 and trainee.score >= 8}"-->
+                                <!--                                ><span class="fa fa-graduation-cap mr-1"></span><strong>Rank: </strong>-->
+                                <!--                                    &nbsp;A+-->
+                                <!--                                </p>-->
+                                <!--                                <p class="d-flex align-items-center mt-3"-->
+                                <!--                                   th:if="${trainee.score < 8 and trainee.score >= 7}"-->
+                                <!--                                ><span class="fa fa-graduation-cap mr-1"></span><strong>Rank: </strong>-->
+                                <!--                                    &nbsp;A-->
+                                <!--                                </p>-->
+                                <!--                                <p class="d-flex align-items-center mt-3"-->
+                                <!--                                   th:if="${trainee.score < 7 and trainee.score >= 6}"-->
+                                <!--                                ><span class="fa fa-graduation-cap mr-1"></span><strong>Rank: </strong>-->
+                                <!--                                    &nbsp;B-->
+                                <!--                                </p>-->
+                                <!--                                <p class="d-flex align-items-center mt-3"-->
+                                <!--                                   th:if="${trainee.score < 6 and trainee.score >= 5}"-->
+                                <!--                                ><span class="fa fa-graduation-cap mr-1"></span><strong>Rank: </strong>-->
+                                <!--                                    &nbsp;C-->
+                                <!--                                </p>-->
+                                <!--                                <p class="d-flex align-items-center mt-3" th:if="${trainee.score < 5}"-->
+                                <!--                                ><span class="fa fa-graduation-cap mr-1"></span><strong>Rank: </strong>-->
+                                <!--                                    &nbsp;D-->
+                                <!--                                </p>-->
                             </div>
                             <div class="col-md-4">
                                 <p class="d-flex align-items-center mt-3 text-primary"><span

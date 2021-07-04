@@ -31,6 +31,9 @@ public class Trainee extends BaseEntity implements Serializable {
     @Column(name = "branch")
     private String branch;
 
+    @Column(name = "photo")
+    private String photo;
+
     @Column(name = "parent_department")
     private String parentDepartment;
 

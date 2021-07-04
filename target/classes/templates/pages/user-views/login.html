@@ -21,7 +21,7 @@
 </head>
 
 <body>
-<script th:if="${param.error}">
+<script th:if="${error != null}">
     Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -33,9 +33,14 @@
     <div class="container-fluid col-md-4">
         <form th:action="@{/login}" method="POST" class="form-horizontal">
             <h2 class="text-center">Sign in</h2>
-            <div th:if="${(param.error != null) and (param.error[0] == 'true')}" style="display:none">
+            <div th:if="${(error != null) and (error == 'true')}" style="display:none">
                 <input type="text" id="check-error-input" value="error">
             </div>
+            <th:block th:if="${error != null}">
+                <div class="alert alert-danger" role="alert">
+                    Account & Password not match!
+                </div>
+            </th:block>
             <div class="form-group">
                 <p id="error-login" style="color: red; "></p>
             </div>
