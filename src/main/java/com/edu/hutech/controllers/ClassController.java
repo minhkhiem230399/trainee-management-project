@@ -400,13 +400,16 @@ public class ClassController {
      * @return
      */
     @PostMapping("/attendance")
-    public ResponseEntity<AjaxResponse> attendance(@RequestBody String data) {
+    public ResponseEntity<AjaxResponse> attendance(@RequestBody String data,
+                                                   Model model) {
         JSONObject json = new JSONObject(data);
 
         Integer courseId = json.getInt("courseId");
         Integer traineeId = json.getInt("traineeId");
 
         courseService.setAttendance(courseId, traineeId);
+
+
         return ResponseEntity.ok(new AjaxResponse(200, data));
     }
 

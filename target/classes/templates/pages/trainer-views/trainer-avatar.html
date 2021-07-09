@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout-template.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="currentTemplate =${role == 1 ? 'User Profile' : 'Default Management'}"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Trainer Management</title>
+</head>
+
+<body>
+<div layout:fragment="content" class="content">
+    <div class="container-fluid">
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="mb-0 font-size-18" style="color: mediumpurple">Update
+                                Avatar</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Basic Information</h4>
+                                    <!--                                    <p class="card-title-desc">Fill all information below</p>-->
+                                    <form th:action="@{/trainer-management/avatar-trainer(id=${trainer.id})}"
+                                          method="post" enctype="multipart/form-data">
+                                        <div class="row">
+                                            <!-- th:object="${TRAINER}" -->
+                                            <div class="col-sm-6">
+                                                <!-- <input th:field="*{id}" th:value="*{id}"  type="hidden" class="form-control"> -->
+                                                <div sec:authorize="hasRole('ROLE_TRAINER')"
+                                                     class="form-group">
+                                                    <label for="photos">Avatar</label> <input id="photos"
+                                                                                              name="photo" type="file"
+                                                                                              class="form-control"
+                                                                                              required>
+                                                    <!-- th:field="*{photo}" -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit"
+                                                class="btn btn-primary mr-1 waves-effect waves-light">Save
+                                            Changes
+                                        </button>
+                                        <a href="/my-account"
+                                           class="btn btn-secondary waves-effect">Cancel</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+                </div>
+                <!-- container-fluid -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

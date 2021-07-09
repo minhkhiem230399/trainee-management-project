@@ -92,16 +92,8 @@
             <div class="row">
                 <div th:id="${trainee.id}" class="col-md-6" th:each="trainee : ${trainees}">
                     <div class="card profile d-flex flex-row">
-                        <div class="col-md-4 text-center">
-                            <figure>
-                                <img th:src="@{${'getimage/' + trainee.photo}}" alt=""
-                                     class="rounded-circle img-fluid mt-4">
-                                <figcaption class="ratings">
-                                    <p>
-
-                                    </p>
-                                </figcaption>
-                            </figure>
+                        <div class="ml-4 text-center mb-2 mt-2">
+                                <img th:src="@{${'file/upload/' + trainee.photo}}" class="rounded-circle" width="100px" height="120px">
                         </div>
                         <div class="col-md-8">
                             <h4 class="text-primary d-flex justify-content-start"><span
@@ -139,9 +131,8 @@
                 <div class="col-md-12" th:each="trainee : ${trainees}">
                     <div class="card d-flex flex-row">
                         <div class="col-md-1 text-center">
-                            <figure>
-                                <img src="/img/avt.jpg" alt="" class="rounded-circle img-fluid mt-3 mb-0">
-                            </figure>
+                                <img th:src="@{${'file/upload/' + trainee.photo}}" alt="" width="100px" height="100px"
+                                     class="mt-4">
                         </div>
                         <div class="col-md-11 d-flex flex-row">
                             <div class="col-md-4">

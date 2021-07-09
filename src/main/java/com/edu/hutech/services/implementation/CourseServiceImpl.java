@@ -205,6 +205,17 @@ public class CourseServiceImpl implements CourseService {
         attendanceRepository.save(attendance);
     }
 
+    public boolean getListAttendance(Integer id) {
+        TraineeCourse traineeCourse = traineeCourseRepository.getOne(id);
+        List<Attendance> attendanceList = traineeCourse.getAttendanceList();
+        attendanceList.removeIf(attendance -> attendance.getDate().compareTo(LocalDate.now()) != 0);
+
+        if (CollectionUtils.isEmpty(attendanceList)){
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @param id
      */
@@ -214,11 +225,14 @@ public class CourseServiceImpl implements CourseService {
             for (Attendance attendance : traineeCourse.getAttendanceList()) {
                 if (attendance.getDate().compareTo(LocalDate.now()) != 0) {
                     traineeCourse.setAttendanced(0);
+                    traineeCourseRepository.save(traineeCourse);
                 }
             }
         } else {
             traineeCourse.setAttendanced(0);
+            traineeCourseRepository.save(traineeCourse);
         }
+
     }
 
 }

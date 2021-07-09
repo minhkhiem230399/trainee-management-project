@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="mb-2" th:fragment="recaptcha">
+    <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.key')}"></div>
+    <script type="text/javascript">
+        function validatedCaptcha() {
+            if (grecaptcha.getResponse()) {
+                return true;
+            } else {
+                alert("Please confirm Captcha !");
+                return false;
+            }
+        }
+    </script>
+</div>
